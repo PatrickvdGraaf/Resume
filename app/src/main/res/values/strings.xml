@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">Patricks Resume</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="btn_dicee_roll">Roll</string>
+    <string name="contentDescProjectIcon">Application Icon</string>
+    <string name="project_xylophone_desc">Make your own Music using the Xylophone app</string>
+    <string name="project_xylophone_title">Xylophone</string>
+    <string name="project_dicee_title">Dicee</string>
+    <string name="project_dicee_desc">Dare a bet, roll a dice.</string>
+    <string name="btn_ask">Ask</string>
+    <string name="msg_ball_header">Make everyday decisions easier!</string>
+    <string name="project_eight_ball_title">Magic 8 Ball</string>
+    <string name="project_eight_ball_desc">Want to know something but can\'t ask anyone? Fear not, ask it to the Magic 8 Ball.</string>
+
+    <string name="title_activity_dicee_launcher">DiceeLauncherActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="contentDescriptionDiceeIcon">Dicee Icon</string>
+    <string name="transition_open_app_name">open_app</string>
+</resources>
