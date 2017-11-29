@@ -55,7 +55,8 @@ public class Magic8BallTest extends ActivityInstrumentationTestCase2<Magic8BallA
             Random randomGen = new Random();
             int number = randomGen.nextInt(mActivity.getBallsArrayLength());
             mActivity.updateBallView(number);
-            assertEquals(mActivity.getFromBallsArray(number), mActivity.getImageViewBall().getTag());
+            assertEquals(mActivity.getFromBallsArray(number),
+                    mActivity.getImageViewBall().getTag());
         });
     }
 }

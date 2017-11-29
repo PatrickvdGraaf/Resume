@@ -28,6 +28,7 @@
         android:id="@+id/imageViewBall"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:transitionName="open_app"
         android:layout_above="@+id/buttonAsk"
         android:layout_below="@+id/textViewHeader"
         android:src="@drawable/ball1"/>

@@ -8,9 +8,11 @@ import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.os.Bundle
 import android.support.annotation.DrawableRes
+import android.support.annotation.IdRes
 import android.support.annotation.Size
 import android.support.annotation.VisibleForTesting
 import android.support.v7.app.AppCompatActivity
+import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.Button
@@ -26,14 +28,14 @@ import java.util.*
 class Magic8BallActivity : AppCompatActivity(), SensorEventListener {
     private val ballsArray = intArrayOf(R.drawable.ball1, R.drawable.ball2, R.drawable.ball3, R.drawable.ball4, R.drawable.ball5)
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    val buttonAsk: Button = findViewById(R.id.buttonAsk)
+    val buttonAsk: Button by bind(R.id.buttonAsk)
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    val imageViewBall: ImageView  = findViewById(R.id.imageViewBall)
+    val imageViewBall: ImageView by bind(R.id.imageViewBall)
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     var listener: OnShakeListener? = null
-    private var mSensorManager: SensorManager? = getSystemService(Context.SENSOR_SERVICE) as SensorManager
+    private var mSensorManager: SensorManager? = null
     private var mShakeTimestamp: Long = 0
-    private val mAccelerometer: Sensor = mSensorManager!!.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
+    private var mAccelerometer: Sensor? = null
 
     companion object {
         /*
@@ -52,7 +54,7 @@ class Magic8BallActivity : AppCompatActivity(), SensorEventListener {
     }
 
     @VisibleForTesting
-     val animationDuration: Int
+    val animationDuration: Int
         get() = ANIM_PREPARE_DURATION + ANIM_SHAKE_DURATION + ANIM_RESET_DURATION
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,8 +63,10 @@ class Magic8BallActivity : AppCompatActivity(), SensorEventListener {
 
         buttonAsk.setOnClickListener { updateBallView() }
 
+        mSensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
         // ShakeDetector initialization
         if (mSensorManager != null) {
+            mAccelerometer = mSensorManager!!.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
             setOnShakeListener(object : OnShakeListener {
                 override fun onShake() {
                     updateBallView()
@@ -96,13 +100,13 @@ class Magic8BallActivity : AppCompatActivity(), SensorEventListener {
         setBallImage(ballsArray[randomNum])
     }
 
-    fun getBallsArrayLength(): Int{
+    fun getBallsArrayLength(): Int {
         return ballsArray.size
     }
 
     @DrawableRes
-    fun getFromBallsArray(index:Int) : Int{
-        if (index < 0){
+    fun getFromBallsArray(index: Int): Int {
+        if (index < 0) {
             return ballsArray[0]
         }
         return ballsArray[index]
@@ -218,5 +222,8 @@ class Magic8BallActivity : AppCompatActivity(), SensorEventListener {
     interface OnShakeListener {
         fun onShake()
     }
+
+    private fun <T : View> Magic8BallActivity.bind(@IdRes res: Int): Lazy<T> =
+            kotlin.lazy(kotlin.LazyThreadSafetyMode.NONE) { findViewById<T>(res) }
 }
 

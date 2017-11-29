@@ -11,7 +11,8 @@ import nl.graaf.patricksresume.views.resume.ResumeFragment
 
 class MainActivity : Activity(), ProjectFragment.OnListFragmentInteractionListener {
 
-    private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
+    private val mOnNavigationItemSelectedListener
+            = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
             R.id.navigation_home -> {
 //                message.setText(R.string.title_home)

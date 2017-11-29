@@ -5,7 +5,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:windowContentTransitions">true</item>
+        <!--<item name="android:windowContentTransitions">true</item>-->
     </style>
 
     <!-- Dicee application theme. -->
@@ -17,6 +17,18 @@
         <item name="android:textColorPrimaryInverse">@android:color/black</item>
         <item name="android:windowContentTransitions">true</item>
     </style>
+
+    <!-- Destini application theme. -->
+    <style name="DestiniTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
 
     <style name="KeyStyle">
         <item name="android:layout_weight">1</item>

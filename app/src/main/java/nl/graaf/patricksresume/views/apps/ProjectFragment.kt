@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import nl.graaf.patricksresume.R
 import nl.graaf.patricksresume.models.Project
+import nl.graaf.patricksresume.views.projects.destini.DestiniActivity
 import nl.graaf.patricksresume.views.projects.dicee.launcher.DiceeLauncherActivity
 import nl.graaf.patricksresume.views.projects.magic8ball.Magic8BallActivity
 import nl.graaf.patricksresume.views.projects.xylophone.XylophoneActivity
@@ -49,17 +50,20 @@ class ProjectFragment : Fragment(), MyProjectRecyclerViewAdapter.ProjectsRecycle
     }
 
     private fun getProjects(): ArrayList<Project> {
-        val list = ArrayList<Project>()
-        list.add(Project(R.drawable.ic_dicee, getString(R.string.project_dicee_title),
-                getString(R.string.project_dicee_desc),
-                DiceeLauncherActivity.getStartIntent(activity!!.applicationContext)))
-        list.add(Project(R.drawable.ic_xylophone, getString(R.string.project_xylophone_title),
-                getString(R.string.project_xylophone_desc),
-                XylophoneActivity.getStartIntent(activity!!.applicationContext)))
-        list.add(Project(R.drawable.ic_eight_ball, getString(R.string.project_eight_ball_title),
-                getString(R.string.project_eight_ball_desc),
-                Magic8BallActivity.getStartIntent(activity!!.applicationContext)))
-        return list
+        return ArrayList<Project>().apply {
+            add(Project(R.drawable.ic_dicee, getString(R.string.project_dicee_title),
+                    getString(R.string.project_dicee_desc),
+                    DiceeLauncherActivity.getStartIntent(activity!!.applicationContext)))
+            add(Project(R.drawable.ic_xylophone, getString(R.string.project_xylophone_title),
+                    getString(R.string.project_xylophone_desc),
+                    XylophoneActivity.getStartIntent(activity!!.applicationContext)))
+            add(Project(R.drawable.ic_eight_ball, getString(R.string.project_eight_ball_title),
+                    getString(R.string.project_eight_ball_desc),
+                    Magic8BallActivity.getStartIntent(activity!!.applicationContext)))
+            add(Project(R.mipmap.ic_launcher_destini, getString(R.string.project_destini_title),
+                    getString(R.string.project_destini_desc),
+                    DestiniActivity.getStartIntent(activity!!.applicationContext)))
+        }
     }
 
     override fun onAttach(context: Context?) {
