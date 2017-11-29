@@ -77,4 +77,5 @@
     <string name="default_query">Enter city name</string>
     <string name="project_clima_title">Clima</string>
     <string name="project_clima_desc">What\'s the weather like near you? Check it with the Clima app.</string>
+    <string name="desc_roll_dice_button">Rolls the Dice</string>
 </resources>

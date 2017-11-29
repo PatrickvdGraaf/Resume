@@ -77,11 +77,11 @@ class QuizzlerActivity : BaseActivity() {
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {
-        super.onSaveInstanceState(outState)
         if (outState != null) {
             outState.putInt(KEY_SCORE, mScore)
             outState.putInt(KEY_INDEX, mIndex)
         }
+        super.onSaveInstanceState(outState)
     }
 
     private fun updateQuestion() {
