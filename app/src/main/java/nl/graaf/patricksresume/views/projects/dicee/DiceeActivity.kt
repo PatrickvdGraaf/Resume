@@ -4,12 +4,12 @@ import android.content.Context
 import android.content.Intent
 import android.content.res.Resources
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_dicee.*
 import nl.graaf.patricksresume.R
+import nl.graaf.patricksresume.views.helpers.BaseActivity
 import java.util.*
 
-class DiceeActivity : AppCompatActivity() {
+class DiceeActivity : BaseActivity() {
 
     companion object {
         private val NUM_OF_IMAGES = 6

@@ -4,12 +4,12 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
-import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import nl.graaf.patricksresume.R
+import nl.graaf.patricksresume.views.helpers.BaseActivity
 import nl.graaf.patricksresume.views.projects.dicee.DiceeActivity
 
-class DiceeLauncherActivity : AppCompatActivity() {
+class DiceeLauncherActivity : BaseActivity() {
 
     companion object {
         private val TRANSITION_DELAY_MILLIS: Long = 1500

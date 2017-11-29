@@ -12,9 +12,11 @@ import android.view.View
 import android.view.ViewGroup
 import nl.graaf.patricksresume.R
 import nl.graaf.patricksresume.models.Project
+import nl.graaf.patricksresume.views.projects.clima.ClimaActivity
 import nl.graaf.patricksresume.views.projects.destini.DestiniActivity
 import nl.graaf.patricksresume.views.projects.dicee.launcher.DiceeLauncherActivity
 import nl.graaf.patricksresume.views.projects.magic8ball.Magic8BallActivity
+import nl.graaf.patricksresume.views.projects.quizzler.QuizzlerActivity
 import nl.graaf.patricksresume.views.projects.xylophone.XylophoneActivity
 
 
@@ -63,6 +65,12 @@ class ProjectFragment : Fragment(), MyProjectRecyclerViewAdapter.ProjectsRecycle
             add(Project(R.mipmap.ic_launcher_destini, getString(R.string.project_destini_title),
                     getString(R.string.project_destini_desc),
                     DestiniActivity.getStartIntent(activity!!.applicationContext)))
+            add(Project(R.mipmap.ic_launcher_quizzler, getString(R.string.project_quizzler_title),
+                    getString(R.string.project_quizzler_desc),
+                    QuizzlerActivity.getStartIntent(activity!!.applicationContext)))
+            add(Project(R.mipmap.ic_launcher_clima, getString(R.string.project_clima_title),
+                    getString(R.string.project_clima_desc),
+                    ClimaActivity.getStartIntent(activity!!.applicationContext)))
         }
     }
 

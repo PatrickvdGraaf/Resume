@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="nl.graaf.patricksresume">
 
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <application
         android:name=".PatricksResumeApplication"
         android:allowBackup="true"
@@ -10,6 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".views.helpers.BaseActivity"/>
         <activity
             android:name=".views.MainActivity"
             android:label="@string/app_name"
@@ -31,8 +33,13 @@
         <activity
             android:name=".views.projects.dicee.launcher.DiceeLauncherActivity"
             android:theme="@style/DiceeTheme"/>
+        <!--Destini-->
         <activity android:name=".views.projects.destini.DestiniActivity">
         </activity>
+        <!--Quizzler-->
+        <activity android:name=".views.projects.quizzler.QuizzlerActivity"/>
+        <!--Clima-->
+        <activity android:name=".views.projects.clima.ClimaActivity"/>
     </application>
 
 </manifest>

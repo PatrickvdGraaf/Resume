@@ -12,12 +12,18 @@
     <color name="green">#2ecc71</color>
     <color name="blue">#3498db</color>
     <color name="purple">#9b59b6</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
 
-     <!--Dicee Colors-->
+    <!--Dicee Colors-->
     <color name="diceeColorPrimary">#6c861c</color>
     <color name="diceeColorPrimaryDark">#3d5900</color>
     <color name="diceeColorAccent">#e6cb28</color>
 
+    <!--Quizzler-->
+    <color name="colorText">#ecf0f1</color>
+    <color name="colorTrueButton">#27ae60</color>
+    <color name="colorFalseButton">#c0392b</color>
 
     <color name="black_overlay">#66000000</color>
 </resources>

@@ -1,15 +1,15 @@
 package nl.graaf.patricksresume.views
 
-import android.app.Activity
 import android.app.Fragment
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 import nl.graaf.patricksresume.R
 import nl.graaf.patricksresume.views.apps.ProjectFragment
+import nl.graaf.patricksresume.views.helpers.BaseActivity
 import nl.graaf.patricksresume.views.resume.ResumeFragment
 
-class MainActivity : Activity(), ProjectFragment.OnListFragmentInteractionListener {
+class MainActivity : BaseActivity(), ProjectFragment.OnListFragmentInteractionListener {
 
     private val mOnNavigationItemSelectedListener
             = BottomNavigationView.OnNavigationItemSelectedListener { item ->

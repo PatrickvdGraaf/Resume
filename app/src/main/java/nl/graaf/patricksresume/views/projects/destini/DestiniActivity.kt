@@ -3,14 +3,13 @@ package nl.graaf.patricksresume.views.projects.destini
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.annotation.IdRes
-import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import nl.graaf.patricksresume.R
+import nl.graaf.patricksresume.views.helpers.BaseActivity
 
-class DestiniActivity : AppCompatActivity() {
+class DestiniActivity : BaseActivity() {
     private val mTextViewStory: TextView by bind(R.id.storyTextView)
     private val mButtonTop: Button by bind(R.id.buttonTop)
     private val mButtonBottom: Button by bind(R.id.buttonBottom)
@@ -25,7 +24,7 @@ class DestiniActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_destini)
 
         mTextViewStory.setText(R.string.T1_Story)
         mButtonTop.setText(R.string.T1_Ans1)
@@ -70,7 +69,4 @@ class DestiniActivity : AppCompatActivity() {
         mButtonTop.visibility = View.GONE
         mButtonBottom.visibility = View.GONE
     }
-
-    private fun <T : View> DestiniActivity.bind(@IdRes res: Int): Lazy<T> =
-            kotlin.lazy(kotlin.LazyThreadSafetyMode.NONE) { findViewById<T>(res) }
 }

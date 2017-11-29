@@ -8,16 +8,14 @@ import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.os.Bundle
 import android.support.annotation.DrawableRes
-import android.support.annotation.IdRes
 import android.support.annotation.Size
 import android.support.annotation.VisibleForTesting
-import android.support.v7.app.AppCompatActivity
-import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.ImageView
 import nl.graaf.patricksresume.R
+import nl.graaf.patricksresume.views.helpers.BaseActivity
 import timber.log.Timber
 import java.util.*
 
@@ -25,7 +23,7 @@ import java.util.*
  * This Activity shows the basic understanding of creating an Activity, implementing an Interface
  * and updating an Image when the user preforms certain actions.
  */
-class Magic8BallActivity : AppCompatActivity(), SensorEventListener {
+class Magic8BallActivity : BaseActivity(), SensorEventListener {
     private val ballsArray = intArrayOf(R.drawable.ball1, R.drawable.ball2, R.drawable.ball3, R.drawable.ball4, R.drawable.ball5)
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     val buttonAsk: Button by bind(R.id.buttonAsk)
@@ -222,8 +220,5 @@ class Magic8BallActivity : AppCompatActivity(), SensorEventListener {
     interface OnShakeListener {
         fun onShake()
     }
-
-    private fun <T : View> Magic8BallActivity.bind(@IdRes res: Int): Lazy<T> =
-            kotlin.lazy(kotlin.LazyThreadSafetyMode.NONE) { findViewById<T>(res) }
 }
 

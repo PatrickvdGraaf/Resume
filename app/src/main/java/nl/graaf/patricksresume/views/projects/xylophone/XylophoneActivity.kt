@@ -5,11 +5,11 @@ import android.content.Intent
 import android.media.AudioAttributes
 import android.media.SoundPool
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.view.View
 import nl.graaf.patricksresume.R
+import nl.graaf.patricksresume.views.helpers.BaseActivity
 
-class XylophoneActivity : AppCompatActivity() {
+class XylophoneActivity : BaseActivity() {
 
     companion object {
         // Helpful Constants

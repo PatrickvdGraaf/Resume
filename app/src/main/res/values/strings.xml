@@ -39,4 +39,42 @@
     <string name="project_destini_title">Destini</string>
     <string name="project_destini_desc">Embark on an adventure where you decide the course of the story.</string>
 
+    <!--Quizzler-->
+    <string name="true_button">True</string>
+    <string name="false_button">False</string>
+    <string name="initial_score">Score 0/13</string>
+
+    <string name="incorrect_toast">Wrong!</string>
+    <string name="correct_toast">You got it!</string>
+    <string name="msg_score">Score %1$d/%2$d</string>
+    <string name="alert_score_message">You scored %1$d points</string>
+
+    <string name="question_1">Valentine\'s day is banned in Saudi Arabia.</string>
+    <string name="question_2">A slug\'s blood is green.</string>
+    <string name="question_3">Approximately one quarter of human bones are in the feet.</string>
+    <string name="question_4">The total surface area of two human lungs is approximately 70 square metres.</string>
+    <string name="question_5">In West Virginia, USA, if you accidentally hit an animal with your car, you are free to take it home to eat.</string>
+    <string name="question_6">In London, UK, if you happen to die in the House of Parliament, you are technically entitled to a state funeral, because the building is considered too sacred a place.</string>
+    <string name="question_7">It is illegal to pee in the Ocean in Portugal.</string>
+    <string name="question_8">You can lead a cow down stairs but not up stairs.</string>
+    <string name="question_9">Google was originally called \"Backrub\".</string>
+    <string name="question_10">Buzz Aldrin\'s mother\'s maiden name was \"Moon\".</string>
+    <string name="question_11">The loudest sound produced by any animal is 188 decibels. That animal is the African Elephant.</string>
+    <string name="question_12">No piece of square dry paper can be folded in half more than 7 times.</string>
+    <string name="question_13">Chocolate affects a dog\'s heart and nervous system; a few ounces are enough to kill a small dog.</string>
+    <string name="alert_quizzler_game_over">Game Over</string>
+    <string name="alert_quizzler_close_application">Close Application</string>
+    <string name="project_quizzler_title">Quizzler</string>
+    <string name="project_quizzler_desc">Think you know it all? Test your knowledge in the Quizzler app!</string>
+
+    <!--Clima-->
+    <string name="default_location">Fetching Location</string>
+    <string name="default_temp">NA</string>
+    <string name="change_city_description">Click Here to Change City</string>
+    <string name="weather_description">This is the weather symbol</string>
+    <string name="back_button_description">Dismiss Change City Screen</string>
+    <string name="get_weather">Change City</string>
+    <string name="default_query">Enter city name</string>
+    <string name="project_clima_title">Clima</string>
+    <string name="project_clima_desc">What\'s the weather like near you? Check it with the Clima app.</string>
 </resources>
