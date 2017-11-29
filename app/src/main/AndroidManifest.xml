@@ -3,6 +3,8 @@
           package="nl.graaf.patricksresume">
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:name=".PatricksResumeApplication"
         android:allowBackup="true"
@@ -33,13 +35,15 @@
         <activity
             android:name=".views.projects.dicee.launcher.DiceeLauncherActivity"
             android:theme="@style/DiceeTheme"/>
-        <!--Destini-->
+        <!-- Destini -->
         <activity android:name=".views.projects.destini.DestiniActivity">
         </activity>
-        <!--Quizzler-->
+        <!-- Quizzler -->
         <activity android:name=".views.projects.quizzler.QuizzlerActivity"/>
-        <!--Clima-->
+        <!-- Clima -->
         <activity android:name=".views.projects.clima.ClimaActivity"/>
+        <activity android:name=".views.projects.clima.ChangeCityActivity">
+        </activity>
     </application>
 
 </manifest>

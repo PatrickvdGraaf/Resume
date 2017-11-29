@@ -9,6 +9,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.widget.ImageButton;
@@ -19,11 +20,14 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import cz.msebera.android.httpclient.Header;
 import nl.graaf.patricksresume.R;
 import nl.graaf.patricksresume.views.helpers.BaseActivity;
+import nl.graaf.patricksresume.views.projects.clima.models.WeatherDataModel;
+import timber.log.Timber;
 
 /**
  * Created by patrick on 11/29/17.
@@ -43,7 +47,6 @@ public class ClimaActivity extends BaseActivity {
     // Distance between location updates (1000m or 1km)
     final float MIN_DISTANCE = 1000;
 
-    // TODO: Set LOCATION_PROVIDER here:
     String LOCATION_PROVIDER = LocationManager.NETWORK_PROVIDER;
 
     // Member Variables:
@@ -51,7 +54,6 @@ public class ClimaActivity extends BaseActivity {
     ImageView mWeatherImage;
     TextView mTemperatureLabel;
 
-    // TODO: Declare a LocationManager and a LocationListener here:
     LocationManager mLocationManager;
     LocationListener mLocationListener;
 
@@ -70,24 +72,32 @@ public class ClimaActivity extends BaseActivity {
         mTemperatureLabel = findViewById(R.id.tempTV);
         ImageButton changeCityButton = findViewById(R.id.changeCityButton);
 
-
-        // TODO: Add an OnClickListener to the changeCityButton here:
-
+        changeCityButton.setOnClickListener(view -> {
+            Intent myIntent = new Intent(this, ChangeCityActivity.class);
+            startActivity(myIntent);
+        });
     }
 
 
-    // TODO: Add onResume() here:
     @Override
     protected void onResume() {
         super.onResume();
-        getWeatherForCurrentLocation();
+
+        String city = getIntent().getStringExtra("City");
+        if (city != null) {
+            getWeatherForCity(city);
+        } else {
+            getWeatherForCurrentLocation();
+        }
     }
 
+    private void getWeatherForCity(String city) {
+        RequestParams params = new RequestParams();
+        params.put("q", city);
+        params.put("appid", APP_ID);
+        letsDoSomeNetworking(params);
+    }
 
-    // TODO: Add getWeatherForNewCity(String city) here:
-
-
-    // TODO: Add getWeatherForCurrentLocation() here:
     private void getWeatherForCurrentLocation() {
         mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         mLocationListener = new LocationListener() {
@@ -97,8 +107,8 @@ public class ClimaActivity extends BaseActivity {
 
                 String longitude = String.valueOf(location.getLongitude());
                 String latitude = String.valueOf(location.getLatitude());
-                Log.d("Clima", "Longitude " + longitude);
-                Log.d("Clima", "Latitude " + latitude);
+                Timber.d("Longitude %s", longitude);
+                Log.d("Latitude %s", latitude);
 
                 RequestParams params = new RequestParams();
                 params.put("lat", latitude);
@@ -157,16 +167,43 @@ public class ClimaActivity extends BaseActivity {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
+                Timber.d("%s, GET method success. JSON: %s", statusCode, response);
+
+                try {
+                    WeatherDataModel weatherData = WeatherDataModel.fromJson(response);
+                    updateUI(weatherData);
+                } catch (JSONException e) {
+                    Timber.e("Error while parsing JSON for WeatherDataModel; %s",
+                            e.toString());
+                }
             }
 
-
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable,
+                                  JSONObject errorResponse) {
+                super.onFailure(statusCode, headers, throwable, errorResponse);
+                Timber.e("%s; GET method failed for %s with error: %s", statusCode,
+                        WEATHER_URL, throwable.toString());
+                Snackbar.make(findViewById(R.id.content), "Request Failed",
+                        Snackbar.LENGTH_SHORT).show();
+            }
         });
     }
 
     // TODO: Add updateUI() here:
+    private void updateUI(WeatherDataModel weatherDataModel) {
+        mTemperatureLabel.setText(weatherDataModel.getTemperature());
+        mCityLabel.setText(weatherDataModel.getCity());
+        int resourceId = getResources().getIdentifier(weatherDataModel.getIconName(),
+                "drawable", getPackageName());
+        mWeatherImage.setImageResource(resourceId);
+    }
 
-
-    // TODO: Add onPause() here:
-
-
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (mLocationManager != null) {
+            mLocationManager.removeUpdates(mLocationListener);
+        }
+    }
 }
