@@ -43,8 +43,14 @@
         <!-- Clima -->
         <activity android:name=".views.projects.clima.ClimaActivity"/>
         <activity android:name=".views.projects.clima.ChangeCityActivity"/>
-        <!--BitCoin Ticker-->
+        <!-- BitCoin Ticker -->
         <activity android:name=".views.projects.bitcointicker.BitTickerActivity"/>
+        <activity android:name=".views.projects.flashchat.LoginActivity">
+        </activity>
+        <activity android:name=".views.projects.flashchat.MainChatActivity">
+        </activity>
+        <activity android:name=".views.projects.flashchat.RegisterActivity">
+        </activity>
     </application>
 
 </manifest>

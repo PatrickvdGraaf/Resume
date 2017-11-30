@@ -42,10 +42,10 @@ public class BitTickerActivity extends BaseActivity {
 
         // Create an ArrayAdapter using the String array and a spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.currency_array, R.layout.bitcoin_spinner_item);
+                R.array.currency_array, R.layout.spinner_item_bitcoin);
 
         // Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(R.layout.bitcoin_spinner_dropdown_item);
+        adapter.setDropDownViewResource(R.layout.spinner_bitcoin_dropdown_item);
 
         // Apply the adapter to the spinner
         spinner.setAdapter(adapter);

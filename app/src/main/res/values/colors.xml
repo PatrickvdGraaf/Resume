@@ -4,6 +4,13 @@
     <color name="colorPrimaryDark">#1976d2</color>
     <color name="colorAccent">#FF4081</color>
 
+    <!--Flash Chat-->
+    <color name="flash_chat_yellow">#f1c40f</color>
+    <color name="flash_chat_green">#27AE60</color>
+    <color name="light_purple">#E8E1E7</color>
+    <color name="light_green">#50d050</color>
+    <color name="dark_green">#008000</color>
+
     <!--Bitcoin Colors-->
     <color name="fontColour">#F1A734</color>
     <color name="selectColour">#F1A734</color>
