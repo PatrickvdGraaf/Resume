@@ -51,8 +51,6 @@ public class LoginActivity extends AppCompatActivity {
 
     // TODO: Complete the attemptLogin() method
     private void attemptLogin() {
-
-
         // TODO: Use FirebaseAuth to sign in with email & password
 
 

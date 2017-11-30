@@ -75,7 +75,7 @@
         android:background="@color/white"
         android:onClick="registerNewUser"
         android:text="@string/action_register"
-        android:textColor="@color/flash_chat_green"
+        android:textColor="@color/green"
         android:textStyle="bold"/>
 
 </LinearLayout>

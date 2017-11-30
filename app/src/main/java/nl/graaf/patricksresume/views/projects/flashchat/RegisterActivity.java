@@ -3,12 +3,10 @@ package nl.graaf.patricksresume.views.projects.flashchat;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import nl.graaf.patricksresume.R;
 
@@ -33,21 +31,18 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_flashchat_register);
 
-        mEmailView = (AutoCompleteTextView) findViewById(R.id.register_email);
-        mPasswordView = (EditText) findViewById(R.id.register_password);
-        mConfirmPasswordView = (EditText) findViewById(R.id.register_confirm_password);
-        mUsernameView = (AutoCompleteTextView) findViewById(R.id.register_username);
+        mEmailView = findViewById(R.id.register_email);
+        mPasswordView = findViewById(R.id.register_password);
+        mConfirmPasswordView = findViewById(R.id.register_confirm_password);
+        mUsernameView = findViewById(R.id.register_username);
 
         // Keyboard sign in action
-        mConfirmPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-                if (id == R.id.register_form_finished || id == EditorInfo.IME_NULL) {
-                    attemptRegistration();
-                    return true;
-                }
-                return false;
+        mConfirmPasswordView.setOnEditorActionListener((textView, id, keyEvent) -> {
+            if (id == R.id.register_form_finished || id == EditorInfo.IME_NULL) {
+                attemptRegistration();
+                return true;
             }
+            return false;
         });
 
         // TODO: Get hold of an instance of FirebaseAuth

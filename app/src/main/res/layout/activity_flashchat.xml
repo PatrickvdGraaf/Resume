@@ -50,6 +50,4 @@
             android:src="@android:drawable/ic_menu_send"
             android:contentDescription="@string/action_send"/>
     </LinearLayout>
-
-
 </RelativeLayout>
