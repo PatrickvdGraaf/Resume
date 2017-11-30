@@ -15,13 +15,13 @@ import nl.graaf.patricksresume.views.apps.ProjectFragment.OnListFragmentInteract
  * [RecyclerView.Adapter] that can display a [Project] and makes a call to the
  * specified [OnListFragmentInteractionListener].
  */
-class MyProjectRecyclerViewAdapter(private val mListener : ProjectsRecyclerViewListener,
+class MyProjectRecyclerViewAdapter(private val mListener: ProjectsRecyclerViewListener,
                                    private val mValues: ArrayList<Project>,
                                    private val mInteractionListener: OnListFragmentInteractionListener?)
     : RecyclerView.Adapter<MyProjectRecyclerViewAdapter.ViewHolder>() {
 
     interface ProjectsRecyclerViewListener {
-        fun getParentActivity() : Activity
+        fun getParentActivity(): Activity
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -43,17 +43,17 @@ class MyProjectRecyclerViewAdapter(private val mListener : ProjectsRecyclerViewL
     inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
         private val mTitleView = mView.findViewById<View>(R.id.textViewProjectTitle) as TextView
         private val mDescView = mView.findViewById<View>(R.id.textViewProjectDesc) as TextView
-        private val mIconView  = mView.findViewById<View>(R.id.imageViewProjectIcon) as ImageView
+        private val mIconView = mView.findViewById<View>(R.id.imageViewProjectIcon) as ImageView
         private var mItem: Project? = null
 
-        fun setProject(project: Project){
+        fun setProject(project: Project) {
             mItem = project
-            mTitleView.text = project.name
-            mDescView.text = project.description
-            mIconView.setImageResource(project.icon)
+            mTitleView.text = project.getProjectName()
+            mDescView.text = project.getProjectDescription()
+            mIconView.setImageResource(project.getProjectIcon())
         }
 
-        fun getTransitionView() :View {
+        fun getTransitionView(): View {
             return mIconView
         }
 

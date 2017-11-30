@@ -12,12 +12,10 @@ import android.view.View
 import android.view.ViewGroup
 import nl.graaf.patricksresume.R
 import nl.graaf.patricksresume.models.Project
-import nl.graaf.patricksresume.views.projects.clima.ClimaActivity
-import nl.graaf.patricksresume.views.projects.destini.DestiniActivity
-import nl.graaf.patricksresume.views.projects.dicee.launcher.DiceeLauncherActivity
-import nl.graaf.patricksresume.views.projects.magic8ball.Magic8BallActivity
-import nl.graaf.patricksresume.views.projects.quizzler.QuizzlerActivity
-import nl.graaf.patricksresume.views.projects.xylophone.XylophoneActivity
+import org.json.JSONArray
+import timber.log.Timber
+import java.io.IOException
+import java.nio.charset.Charset
 
 
 /**
@@ -52,27 +50,15 @@ class ProjectFragment : Fragment(), MyProjectRecyclerViewAdapter.ProjectsRecycle
     }
 
     private fun getProjects(): ArrayList<Project> {
-        return ArrayList<Project>().apply {
-            add(Project(R.drawable.ic_dicee, getString(R.string.project_dicee_title),
-                    getString(R.string.project_dicee_desc),
-                    DiceeLauncherActivity.getStartIntent(activity!!.applicationContext)))
-            add(Project(R.drawable.ic_xylophone, getString(R.string.project_xylophone_title),
-                    getString(R.string.project_xylophone_desc),
-                    XylophoneActivity.getStartIntent(activity!!.applicationContext)))
-            add(Project(R.drawable.ic_eight_ball, getString(R.string.project_eight_ball_title),
-                    getString(R.string.project_eight_ball_desc),
-                    Magic8BallActivity.getStartIntent(activity!!.applicationContext)))
-            add(Project(R.mipmap.ic_launcher_destini, getString(R.string.project_destini_title),
-                    getString(R.string.project_destini_desc),
-                    DestiniActivity.getStartIntent(activity!!.applicationContext)))
-            add(Project(R.mipmap.ic_launcher_quizzler, getString(R.string.project_quizzler_title),
-                    getString(R.string.project_quizzler_desc),
-                    QuizzlerActivity.getStartIntent(activity!!.applicationContext)))
-            add(Project(R.mipmap.ic_launcher_clima, getString(R.string.project_clima_title),
-                    getString(R.string.project_clima_desc),
-                    ClimaActivity.getStartIntent(activity!!.applicationContext)))
+        val jsonArray: JSONArray = loadJSONFromAsset()
+        val projectsList = ArrayList<Project>()
+        (0 until jsonArray.length()).mapTo(projectsList) {
+            Project.fromJson(activity,
+                    jsonArray.getJSONObject(it))
         }
+        return projectsList
     }
+
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
@@ -81,6 +67,21 @@ class ProjectFragment : Fragment(), MyProjectRecyclerViewAdapter.ProjectsRecycle
         } else {
             throw RuntimeException(context!!.toString()
                     + " must implement OnListFragmentInteractionListener")
+        }
+    }
+
+    private fun loadJSONFromAsset(): JSONArray {
+        return try {
+            val `is` = activity.assets.open("projects.json")
+            val size = `is`.available()
+            val buffer = ByteArray(size)
+            `is`.read(buffer)
+            `is`.close()
+            val jsonString = String(buffer, Charset.forName("UTF-8"))
+            JSONArray(jsonString)
+        } catch (ex: IOException) {
+            Timber.e(ex, "Failed to parse projects JSON")
+            JSONArray()
         }
     }
 
@@ -102,11 +103,10 @@ class ProjectFragment : Fragment(), MyProjectRecyclerViewAdapter.ProjectsRecycle
      */
     interface OnListFragmentInteractionListener {
         fun onListFragmentInteraction(activity: Activity, project: Project, interactionView: View) {
-            //TODO change to ActivityOptions?
             val options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity,
                     interactionView,
                     activity.applicationContext.getString(R.string.transition_open_app_name))
-            activity.startActivity(project.getStartIntent(), options.toBundle())
+            activity.startActivity(project.getStartIntent(activity), options.toBundle())
         }
     }
 

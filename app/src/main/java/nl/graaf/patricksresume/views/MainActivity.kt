@@ -10,7 +10,6 @@ import nl.graaf.patricksresume.views.helpers.BaseActivity
 import nl.graaf.patricksresume.views.resume.ResumeFragment
 
 class MainActivity : BaseActivity(), ProjectFragment.OnListFragmentInteractionListener {
-
     private val mOnNavigationItemSelectedListener
             = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {

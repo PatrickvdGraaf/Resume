@@ -1,0 +1,44 @@
+[
+  {
+    "app_icon": "ic_dicee",
+    "app_name": "project_dicee_title",
+    "app_desc": "project_dicee_desc",
+    "app_activity": "nl.graaf.patricksresume.views.projects.dicee.launcher.DiceeLauncherActivity"
+  },
+  {
+    "app_icon": "ic_xylophone",
+    "app_name": "project_xylophone_title",
+    "app_desc": "project_xylophone_desc",
+    "app_activity": "nl.graaf.patricksresume.views.projects.xylophone.XylophoneActivity"
+  },
+  {
+    "app_icon": "ic_eight_ball",
+    "app_name": "project_eight_ball_title",
+    "app_desc": "project_eight_ball_desc",
+    "app_activity": "nl.graaf.patricksresume.views.projects.magic8ball.Magic8BallActivity"
+  },
+  {
+    "app_icon": "ic_launcher_destini",
+    "app_name": "project_destini_title",
+    "app_desc": "project_destini_desc",
+    "app_activity": "nl.graaf.patricksresume.views.projects.destini.DestiniActivity"
+  },
+  {
+    "app_icon": "ic_launcher_quizzler",
+    "app_name": "project_quizzler_title",
+    "app_desc": "project_quizzler_desc",
+    "app_activity": "nl.graaf.patricksresume.views.projects.quizzler.QuizzlerActivity"
+  },
+  {
+    "app_icon": "ic_launcher_clima",
+    "app_name": "project_clima_title",
+    "app_desc": "project_clima_desc",
+    "app_activity": "nl.graaf.patricksresume.views.projects.clima.ClimaActivity"
+  },
+  {
+    "app_icon": "ic_launcher_bitcointicker",
+    "app_name": "project_bitcoin_ticker_title",
+    "app_desc": "project_bitcoin_ticker_desc",
+    "app_activity": "nl.graaf.patricksresume.views.projects.bitcointicker.BitTickerActivity"
+  }
+]

@@ -4,6 +4,11 @@
     <color name="colorPrimaryDark">#1976d2</color>
     <color name="colorAccent">#FF4081</color>
 
+    <!--Bitcoin Colors-->
+    <color name="fontColour">#F1A734</color>
+    <color name="selectColour">#F1A734</color>
+    <color name="bkgndColour">#28aac0</color>
+
     <!--Xylophone Colors-->
     <color name="red">#e74c3c</color>
     <color name="orange">#e67e22</color>

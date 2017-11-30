@@ -24,10 +24,7 @@ class QuizzlerActivity : BaseActivity() {
         }
     }
 
-
     //TODO Fix Quizzler
-
-
     private val mQuestionBank = arrayOf(QuestionModel(R.string.question_1, true),
             QuestionModel(R.string.question_2, true),
             QuestionModel(R.string.question_3, true),

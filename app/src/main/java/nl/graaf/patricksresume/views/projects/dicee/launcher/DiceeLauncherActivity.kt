@@ -10,7 +10,6 @@ import nl.graaf.patricksresume.views.helpers.BaseActivity
 import nl.graaf.patricksresume.views.projects.dicee.DiceeActivity
 
 class DiceeLauncherActivity : BaseActivity() {
-
     companion object {
         private val TRANSITION_DELAY_MILLIS: Long = 1500
         private val FINISH_DELAY_MILLIS: Long = 100
