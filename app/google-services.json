@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "886817523563-g584a30glajv7k1p0jc3k1lnp7diu193.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "nl.graaf.patricksresume",
+            "certificate_hash": "cc6835cbee4c17bf4506d12ea4956e7a78d31045"
+          }
+        },
+        {
           "client_id": "886817523563-ug0g4s0rjdrvhb2qgmpsu05ic435dd37.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,8 +37,13 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "886817523563-ug0g4s0rjdrvhb2qgmpsu05ic435dd37.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2

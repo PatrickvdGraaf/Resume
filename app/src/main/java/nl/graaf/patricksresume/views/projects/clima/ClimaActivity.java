@@ -31,7 +31,7 @@ import timber.log.Timber;
 
 /**
  * Created by patrick on 11/29/17.
- * 1:54 PM, Notive B.V.
+ * 1:54 PM
  *
  * © Copyright 2017
  */

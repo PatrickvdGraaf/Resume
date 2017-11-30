@@ -3,7 +3,7 @@
 /local.properties
 /.idea/workspace.xml
 /.idea/libraries
-.DS_Store
 /build
-/captures
-.externalNativeBuild
+libs/
+src/main/java/nl/graaf/patricksresume/controller/
+src/main/res/drawable/drawable-clima/
