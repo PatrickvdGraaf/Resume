@@ -40,5 +40,11 @@
     "app_name": "project_bitcoin_ticker_title",
     "app_desc": "project_bitcoin_ticker_desc",
     "app_activity": "nl.graaf.patricksresume.views.projects.bitcointicker.BitTickerActivity"
+  },
+  {
+    "app_icon": "ic_launcher_flashchat",
+    "app_name": "project_flash_chat_ticker_title",
+    "app_desc": "project_flash_chat_ticker_desc",
+    "app_activity": "nl.graaf.patricksresume.views.projects.flashchat.LoginActivity"
   }
 ]

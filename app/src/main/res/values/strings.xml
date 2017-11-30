@@ -125,4 +125,6 @@
         completions."
     </string>
     <string name="sample_message">Hello!</string>
+    <string name="project_flash_chat_ticker_title">Flash Chat</string>
+    <string name="project_flash_chat_ticker_desc">Instantly send messages to other app users.</string>
 </resources>
