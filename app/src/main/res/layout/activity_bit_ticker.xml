@@ -30,7 +30,8 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:contentDescription="@string/imageview_desc"
-        android:src="@drawable/bitcoin_image"/>
+        android:src="@drawable/bitcoin_image"
+        android:transitionName="open_app"/>
 
     <LinearLayout
         android:layout_width="match_parent"

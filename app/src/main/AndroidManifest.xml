@@ -43,9 +43,8 @@
         <!-- Clima -->
         <activity android:name=".views.projects.clima.ClimaActivity"/>
         <activity android:name=".views.projects.clima.ChangeCityActivity"/>
-        <!--Bitcoin Ticker-->
-        <activity android:name=".views.projects.bitcointicker.BitTickerActivity">
-        </activity>
+        <!--BitCoin Ticker-->
+        <activity android:name=".views.projects.bitcointicker.BitTickerActivity"/>
     </application>
 
 </manifest>

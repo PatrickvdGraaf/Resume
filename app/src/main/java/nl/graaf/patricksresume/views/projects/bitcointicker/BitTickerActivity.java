@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -24,11 +23,10 @@ import timber.log.Timber;
 
 public class BitTickerActivity extends BaseActivity {
     // Constants:
-    // TODO: Create the base URL
     private final String BASE_URL = "https://apiv2.bitcoinaverage.com/indices/global/ticker/BTC%s";
 
     // Member Variables:
-    TextView mPriceTextView;
+    private TextView mPriceTextView;
 
     public static Intent getStartIntent(Context context) {
         return new Intent(context, BitTickerActivity.class);
@@ -52,7 +50,6 @@ public class BitTickerActivity extends BaseActivity {
         // Apply the adapter to the spinner
         spinner.setAdapter(adapter);
 
-        // TODO: Set an OnItemSelected listener on the spinner
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -65,10 +62,8 @@ public class BitTickerActivity extends BaseActivity {
                 Timber.d("Nothing selected.");
             }
         });
-
     }
 
-    // TODO: complete the letsDoSomeNetworking() method
     private void letsDoSomeNetworking(String url) {
         AsyncHttpClient client = new AsyncHttpClient();
         client.get(url, new JsonHttpResponseHandler() {
@@ -77,22 +72,19 @@ public class BitTickerActivity extends BaseActivity {
                 // called when response HTTP status is "200 OK"
                 Timber.d("JSON: " + response.toString());
                 try {
-                    String ask = response.getString("ask");
-                    mPriceTextView.setText(ask);
+                    mPriceTextView.setText(response.getString("last"));
                 } catch (JSONException e) {
                     Timber.e(e, "Failed to parse JSON from %s", url);
                 }
-//                WeatherDataModel weatherData = WeatherDataModel.fromJson(response);
-//                updateUI(weatherData);
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable e,
                                   JSONObject response) {
                 // called when response HTTP status is "4XX" (eg. 401, 403, 404)
-                Log.d("Clima", "Request fail! Status code: " + statusCode);
-                Log.d("Clima", "Fail response: " + response);
-                Log.e("ERROR", e.toString());
+                Timber.d("Request fail! Status code: " + statusCode);
+                Timber.d("Fail response: " + response);
+                Timber.e(e, "ERROR while calling Bitcoin API");
                 Snackbar.make(findViewById(R.id.content), "Request Failed",
                         Snackbar.LENGTH_SHORT).show();
             }
