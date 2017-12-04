@@ -127,4 +127,9 @@
     <string name="sample_message">Hello!</string>
     <string name="project_flash_chat_ticker_title">Flash Chat</string>
     <string name="project_flash_chat_ticker_desc">Instantly send messages to other app users.</string>
+
+    <!--Githubber-->
+    <string name="project_githubber_title">Githubber</string>
+    <string name="project_githubber_desc"><!--TODO--></string>
+
 </resources>

@@ -135,7 +135,7 @@ class ProjectFragment : Fragment(), MyProjectRecyclerViewAdapter.ProjectsRecycle
 
     private fun loadJSONFromStruct(): JSONObject {
         return try {
-            val `is` = activity.assets.open("projects_struct")
+            val `is` = activity.assets.open("projects_struct.json")
             val size = `is`.available()
             val buffer = ByteArray(size)
             `is`.read(buffer)

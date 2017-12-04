@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="nl.graaf.patricksresume">
+    package="nl.graaf.patricksresume">
 
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".PatricksResumeApplication"
@@ -13,45 +13,42 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".views.helpers.BaseActivity"/>
+        <activity android:name=".views.helpers.BaseActivity" />
         <activity
             android:name=".views.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <!-- Xylophone -->
-        <activity android:name=".views.projects.xylophone.XylophoneActivity"/>
+        <activity android:name=".views.projects.xylophone.XylophoneActivity" />
         <!-- Magic 8 Ball -->
-        <activity android:name=".views.projects.magic8ball.Magic8BallActivity"/>
+        <activity android:name=".views.projects.magic8ball.Magic8BallActivity" />
         <!-- Dicee -->
         <activity
             android:name=".views.projects.dicee.DiceeActivity"
-            android:theme="@style/DiceeTheme"/>
+            android:theme="@style/DiceeTheme" />
         <activity
             android:name=".views.projects.dicee.launcher.DiceeLauncherActivity"
-            android:theme="@style/DiceeTheme"/>
+            android:theme="@style/DiceeTheme" />
         <!-- Destini -->
-        <activity android:name=".views.projects.destini.DestiniActivity">
-        </activity>
+        <activity android:name=".views.projects.destini.DestiniActivity"></activity>
         <!-- Quizzler -->
-        <activity android:name=".views.projects.quizzler.QuizzlerActivity"/>
+        <activity android:name=".views.projects.quizzler.QuizzlerActivity" />
         <!-- Clima -->
-        <activity android:name=".views.projects.clima.ClimaActivity"/>
-        <activity android:name=".views.projects.clima.ChangeCityActivity"/>
+        <activity android:name=".views.projects.clima.ClimaActivity" />
+        <activity android:name=".views.projects.clima.ChangeCityActivity" />
         <!-- BitCoin Ticker -->
-        <activity android:name=".views.projects.bitcointicker.BitTickerActivity"/>
-        <!--Flash Chat-->
-        <activity android:name=".views.projects.flashchat.LoginActivity">
-        </activity>
-        <activity android:name=".views.projects.flashchat.MainChatActivity">
-        </activity>
-        <activity android:name=".views.projects.flashchat.RegisterActivity">
-        </activity>
+        <activity android:name=".views.projects.bitcointicker.BitTickerActivity" />
+        <!-- Flash Chat -->
+        <activity android:name=".views.projects.flashchat.LoginActivity"></activity>
+        <activity android:name=".views.projects.flashchat.MainChatActivity"></activity>
+        <activity android:name=".views.projects.flashchat.RegisterActivity"></activity>
+        <activity android:name=".views.projects.githubber.activity.GithubberActivity"></activity>
     </application>
 
 </manifest>
