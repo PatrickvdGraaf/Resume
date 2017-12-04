@@ -48,7 +48,8 @@
         <activity android:name=".views.projects.flashchat.LoginActivity"></activity>
         <activity android:name=".views.projects.flashchat.MainChatActivity"></activity>
         <activity android:name=".views.projects.flashchat.RegisterActivity"></activity>
-        <activity android:name=".views.projects.githubber.activity.GithubberActivity"></activity>
+        <activity android:name=".views.projects.githubber.activity.GithubberActivity"
+            android:theme="@style/GithubberTheme"></activity>
     </application>
 
 </manifest>

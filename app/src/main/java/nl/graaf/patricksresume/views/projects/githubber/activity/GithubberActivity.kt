@@ -48,9 +48,8 @@ class GithubberActivity : AppCompatActivity(), ICredentialsDialogListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_githubber)
-        //TODO
-//        val toolbar: Toolbar = findViewById(R.id.my_toolbar)
-//        setActionBar(toolbar)
+        val toolbar: android.support.v7.widget.Toolbar = findViewById(R.id.my_toolbar)
+        setSupportActionBar(toolbar)
 
         sendButton = findViewById(R.id.send_comment_button)
 
@@ -100,7 +99,7 @@ class GithubberActivity : AppCompatActivity(), ICredentialsDialogListener {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
-        R.id.home -> consume { showCredentialsDialog() }
+        R.id.menu_credentials -> consume { showCredentialsDialog() }
         else -> super.onOptionsItemSelected(item)
     }
 
