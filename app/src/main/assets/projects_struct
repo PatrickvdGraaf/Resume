@@ -1,0 +1,44 @@
+{
+  "projects": {
+    "app_icon": [
+      "ic_dicee",
+      "ic_xylophone",
+      "ic_eight_ball",
+      "ic_launcher_destini",
+      "ic_launcher_quizzler",
+      "ic_launcher_clima",
+      "ic_launcher_bitcointicker",
+      "ic_launcher_flashchat"
+    ],
+    "app_name": [
+      "project_dicee_title",
+      "project_xylophone_title",
+      "project_eight_ball_title",
+      "project_destini_title",
+      "project_quizzler_title",
+      "project_clima_title",
+      "project_bitcoin_ticker_title",
+      "project_flash_chat_ticker_title"
+    ],
+    "app_desc": [
+      "project_dicee_desc",
+      "project_xylophone_desc",
+      "project_eight_ball_desc",
+      "project_destini_desc",
+      "project_quizzler_desc",
+      "project_clima_desc",
+      "project_bitcoin_ticker_desc",
+      "project_flash_chat_ticker_desc"
+    ],
+    "app_activity": [
+      "nl.graaf.patricksresume.views.projects.dicee.launcher.DiceeLauncherActivity",
+      "nl.graaf.patricksresume.views.projects.xylophone.XylophoneActivity",
+      "nl.graaf.patricksresume.views.projects.magic8ball.Magic8BallActivity",
+      "nl.graaf.patricksresume.views.projects.destini.DestiniActivity",
+      "nl.graaf.patricksresume.views.projects.quizzler.QuizzlerActivity",
+      "nl.graaf.patricksresume.views.projects.clima.ClimaActivity",
+      "nl.graaf.patricksresume.views.projects.bitcointicker.BitTickerActivity",
+      "nl.graaf.patricksresume.views.projects.flashchat.LoginActivity"
+    ]
+  }
+}

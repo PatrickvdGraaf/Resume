@@ -1,23 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="?attr/selectableItemBackground"
+              android:clickable="true"
+              android:focusable="true"
+              android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp">
+        android:paddingEnd="16dp"
+        android:paddingStart="16dp">
 
         <ImageView
             android:id="@+id/imageViewProjectIcon"
-            android:layout_width="wrap_content"
+            android:layout_width="60dp"
             android:layout_height="match_parent"
+            android:adjustViewBounds="true"
             android:contentDescription="@string/contentDescProjectIcon"
             android:padding="4dp"
+            android:scaleType="fitCenter"
             android:src="@drawable/ic_xylophone"
-            android:transitionName="open_app" />
+            android:transitionName="open_app"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -31,20 +36,20 @@
                 android:layout_height="wrap_content"
                 android:text="@string/project_xylophone_title"
                 android:textAppearance="?attr/textAppearanceListItem"
-                android:textStyle="bold" />
+                android:textStyle="bold"/>
 
             <TextView
                 android:id="@+id/textViewProjectDesc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/project_xylophone_desc"
-                android:textAppearance="?attr/textAppearanceListItemSecondary" />
+                android:textAppearance="?attr/textAppearanceListItemSecondary"/>
         </LinearLayout>
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/colorPrimary"
-        android:layout_marginStart="16dp"/>
+        android:layout_marginStart="16dp"
+        android:background="@color/colorPrimary"/>
 </LinearLayout>

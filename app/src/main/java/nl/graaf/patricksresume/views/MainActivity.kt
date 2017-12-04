@@ -41,11 +41,15 @@ class MainActivity : BaseActivity(), ProjectFragment.OnListFragmentInteractionLi
     }
 
     private fun showProjects() {
-        replaceFragment(ProjectFragment.newInstance())
+        if (!hasCurrentFragment() || getCurrentFragment() !is ProjectFragment) {
+            replaceFragment(ProjectFragment.newInstance())
+        }
     }
 
     private fun showResume() {
-        replaceFragment(ResumeFragment.newInstance())
+        if (!hasCurrentFragment() || getCurrentFragment() !is ResumeFragment) {
+            replaceFragment(ResumeFragment.newInstance())
+        }
     }
 
     private fun replaceFragment(fragment: Fragment) {
@@ -53,4 +57,13 @@ class MainActivity : BaseActivity(), ProjectFragment.OnListFragmentInteractionLi
         transaction.replace(R.id.content, fragment)
         transaction.commit()
     }
+
+    private fun hasCurrentFragment(): Boolean {
+        return fragmentManager != null || fragmentManager.findFragmentById(R.id.content) != null
+    }
+
+    private fun getCurrentFragment(): Fragment? {
+        return fragmentManager.findFragmentById(R.id.content)
+    }
+
 }

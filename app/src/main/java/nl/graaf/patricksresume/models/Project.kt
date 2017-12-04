@@ -47,6 +47,20 @@ class Project {
             return project
         }
 
+        fun fromProperties(context: Context, projectJson: JSONObject, index: Int): Project {
+            val project = Project()
+            project.mName = getStringFor(projectJson.getJSONArray("app_name")
+                    .getString(index), context)
+            project.mDesc = getStringFor(projectJson.getJSONArray("app_desc")
+                    .getString(index), context)
+            project.mIcon = getImageFor(projectJson.getJSONArray("app_icon")
+                    .getString(index), context)
+            project.mStartIntentName = projectJson.getJSONArray("app_activity")
+                    .getString(index)
+            return project
+        }
+
+
         private fun getStringFor(name: String, context: Context): String {
             return context.getString(context.resources.getIdentifier(name, "string",
                     context.packageName))

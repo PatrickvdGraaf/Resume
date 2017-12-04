@@ -13,6 +13,9 @@ class DiceeLauncherActivity : BaseActivity() {
     companion object {
         private val TRANSITION_DELAY_MILLIS: Long = 1500
         private val FINISH_DELAY_MILLIS: Long = 100
+        private lateinit var mHandler: Handler
+        private var mRunnable: Runnable? = null
+
         fun getStartIntent(context: Context): Intent {
             return Intent(context, DiceeLauncherActivity::class.java)
         }
@@ -23,10 +26,22 @@ class DiceeLauncherActivity : BaseActivity() {
         setContentView(R.layout.activity_dicee_launcher)
         val handler = Handler()
 
-        handler.postDelayed({
+        mRunnable = Runnable {
             startActivity(DiceeActivity.getStartIntent(applicationContext))
-            handler.postDelayed({finish()}, FINISH_DELAY_MILLIS)
-        }, TRANSITION_DELAY_MILLIS)
+            finish()
+//            handler.postDelayed({ finish() }, FINISH_DELAY_MILLIS)
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        mHandler = Handler()
+        mHandler.postDelayed(mRunnable, TRANSITION_DELAY_MILLIS)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        mHandler.removeCallbacks(mRunnable)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
