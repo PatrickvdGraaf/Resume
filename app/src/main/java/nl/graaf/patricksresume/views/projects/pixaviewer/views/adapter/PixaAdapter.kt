@@ -120,8 +120,8 @@ class PixaAdapter(context: Context, textViewResourceId: Int, objects: ArrayList<
         }
 
         private fun setBackgroundColor(color: Int) {
-            mBackground.setBackgroundColor(color)
-            mBackground.alpha = 0.7f
+            mTextView.setBackgroundColor(color)
+            mTextView.alpha = 0.7f
         }
 
         private fun drawableToBitmap(drawable: Drawable): Bitmap {
