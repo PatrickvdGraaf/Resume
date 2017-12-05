@@ -13,16 +13,18 @@ import java.lang.reflect.Type
  *
  */
 class GithubRepoDeserializer : JsonDeserializer<GithubRepo> {
-    override fun deserialize(json: JsonElement?, typeOfT: Type?, context: JsonDeserializationContext?): GithubRepo {
+
+    override fun deserialize(json: JsonElement?, typeOfT: Type?,
+                             context: JsonDeserializationContext?): GithubRepo {
         val githubRepo = GithubRepo()
 
         val repoJsonObject = json?.asJsonObject
         githubRepo.setName(repoJsonObject?.get("name")?.asString!!)
-        githubRepo.setUrl(repoJsonObject.get("name")?.asString)
+        githubRepo.setUrl(repoJsonObject.get("url")?.asString)
 
         val ownerJsonElement: JsonElement = repoJsonObject.get("owner")
         val ownerJsonObject: JsonObject = ownerJsonElement.asJsonObject
-        githubRepo.owner = ownerJsonObject["login"].asString
+        githubRepo.setOwner(ownerJsonObject["login"].asString)
 
         return githubRepo
     }

@@ -16,6 +16,7 @@ import io.reactivex.schedulers.Schedulers
 import nl.graaf.patricksresume.R
 import nl.graaf.patricksresume.views.projects.githubber.activity.dialog.CredentialsDialog
 import nl.graaf.patricksresume.views.projects.githubber.activity.dialog.ICredentialsDialogListener
+import nl.graaf.patricksresume.views.projects.githubber.activity.spinner.GithubSpinnerAdapter
 import nl.graaf.patricksresume.views.projects.githubber.models.GithubIssue
 import nl.graaf.patricksresume.views.projects.githubber.models.GithubRepo
 import nl.graaf.patricksresume.views.projects.githubber.network.IGithubAPI
@@ -26,16 +27,17 @@ import okhttp3.ResponseBody
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
+import timber.log.Timber
 
 class GithubberActivity : AppCompatActivity(), ICredentialsDialogListener {
     var githubAPI: IGithubAPI? = null
-    var username: String? = null
-    var password: String? = null
+    private var mUsername: String = ""
+    private var mPassword: String = ""
     var repositoriesSpinner: Spinner? = null
     var issuesSpinner: Spinner? = null
     var commentEditText: EditText? = null
     var sendButton: Button? = null
-    var loadReposButtons: Button? = null
+    private var mLoadReposButtons: Button? = null
 
     private val compositeDisposable = CompositeDisposable()
 
@@ -52,6 +54,8 @@ class GithubberActivity : AppCompatActivity(), ICredentialsDialogListener {
         setSupportActionBar(toolbar)
 
         sendButton = findViewById(R.id.send_comment_button)
+        repositoriesSpinner = findViewById(R.id.repositories_spinner)
+        issuesSpinner = findViewById(R.id.issues_spinner)
 
         val repositorySpinner: Spinner = findViewById(R.id.repositories_spinner)
         repositorySpinner.isEnabled = false
@@ -67,8 +71,11 @@ class GithubberActivity : AppCompatActivity(), ICredentialsDialogListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                 if (parent.selectedItem is GithubRepo) {
                     val githubRepo = parent.selectedItem as GithubRepo
-                    compositeDisposable.add(githubAPI?.getIssues(githubRepo.owner,
-                            githubRepo.getName())?.subscribeOn(Schedulers.io())?.observeOn(AndroidSchedulers.mainThread())?.subscribeWith(getIssuesObserver()))
+                    compositeDisposable.add(githubAPI
+                            ?.getIssues(githubRepo.getOwner(), githubRepo.getName())
+                            ?.subscribeOn(Schedulers.io())
+                            ?.observeOn(AndroidSchedulers.mainThread())
+                            ?.subscribeWith(getIssuesObserver()))
                 }
             }
         }
@@ -81,7 +88,7 @@ class GithubberActivity : AppCompatActivity(), ICredentialsDialogListener {
 
         commentEditText = findViewById(R.id.comment_edittext)
 
-        loadReposButtons = findViewById(R.id.loadRepos_button)
+        mLoadReposButtons = findViewById(R.id.loadRepos_button)
 
         createGitHubAPI()
     }
@@ -106,8 +113,8 @@ class GithubberActivity : AppCompatActivity(), ICredentialsDialogListener {
     private fun showCredentialsDialog() {
         val dialog = CredentialsDialog()
         val arguments = Bundle()
-        arguments.putString("username", username)
-        arguments.putString("password", username)
+        arguments.putString("username", mUsername)
+        arguments.putString("password", mUsername)
         dialog.arguments = arguments
 
         dialog.show(fragmentManager, "")
@@ -120,7 +127,7 @@ class GithubberActivity : AppCompatActivity(), ICredentialsDialogListener {
                 .addInterceptor { chain ->
                     val originalRequest = chain.request()
                     val builder = originalRequest.newBuilder().header("Authorization",
-                            Credentials.basic(username, password))
+                            Credentials.basic(mUsername, mPassword))
                     val newRequest = builder.build()
                     chain.proceed(newRequest)
                 }.build()
@@ -144,13 +151,14 @@ class GithubberActivity : AppCompatActivity(), ICredentialsDialogListener {
                 if (!newComment.isEmpty()) {
                     val selectedItem = issuesSpinner?.selectedItem as GithubIssue
                     selectedItem.comment = newComment
-                    compositeDisposable.add(githubAPI!!.postComment(selectedItem.comments_url,
-                            selectedItem)
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribeWith(getCommentObserver()))
+                    compositeDisposable.add(githubAPI
+                            ?.postComment(selectedItem.comments_url, selectedItem)
+                            ?.subscribeOn(Schedulers.io())
+                            ?.observeOn(AndroidSchedulers.mainThread())
+                            ?.subscribeWith(getCommentObserver()))
                 } else {
-                    Toast.makeText(this@GithubberActivity, "Please enter a comment", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this@GithubberActivity, "Please enter a comment",
+                            Toast.LENGTH_LONG).show()
                 }
             }
         }
@@ -160,7 +168,7 @@ class GithubberActivity : AppCompatActivity(), ICredentialsDialogListener {
         return object : DisposableSingleObserver<List<GithubRepo>>() {
             override fun onSuccess(value: List<GithubRepo>) {
                 if (!value.isEmpty()) {
-                    val spinnerAdapter = ArrayAdapter(this@GithubberActivity,
+                    val spinnerAdapter = GithubSpinnerAdapter(this@GithubberActivity,
                             android.R.layout.simple_spinner_dropdown_item,
                             value)
                     repositoriesSpinner?.adapter = spinnerAdapter
@@ -175,8 +183,9 @@ class GithubberActivity : AppCompatActivity(), ICredentialsDialogListener {
             }
 
             override fun onError(e: Throwable) {
-                e.printStackTrace()
-                Toast.makeText(this@GithubberActivity, "Can not load repositories", Toast.LENGTH_SHORT).show()
+                Timber.e(e, "Failed to get Github Repo's")
+                Toast.makeText(this@GithubberActivity, "Can not load repositories",
+                        Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -204,7 +213,7 @@ class GithubberActivity : AppCompatActivity(), ICredentialsDialogListener {
             }
 
             override fun onError(e: Throwable) {
-                e.printStackTrace()
+                Timber.e(e, "Failed to get Issues")
                 Toast.makeText(this@GithubberActivity, "Can not load issues",
                         Toast.LENGTH_SHORT).show()
             }
@@ -228,9 +237,9 @@ class GithubberActivity : AppCompatActivity(), ICredentialsDialogListener {
     }
 
     override fun onDialogPositiveClick(username: String, password: String) {
-        this.username = username
-        this.password = password
-        loadReposButtons?.isEnabled = true
+        this.mUsername = username
+        this.mPassword = password
+        mLoadReposButtons?.isEnabled = true
     }
 
     //The consume function is a very simple one that executes the operation and returns true.

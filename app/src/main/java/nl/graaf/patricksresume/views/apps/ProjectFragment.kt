@@ -62,8 +62,6 @@ class ProjectFragment : Fragment(), MyProjectRecyclerViewAdapter.ProjectsRecycle
                 //getProjects() = 8627291 nanoSeconds
                 //getProjectsFromStruct() = 3550000 nanoSeconds
                 //
-                //Result: Gained 10346875 nanoSeconds by using Struct.
-                //
                 //Note: using rxKotlin on the struct method reduced the performance significantly.
 
                 val startTime1 = System.nanoTime()

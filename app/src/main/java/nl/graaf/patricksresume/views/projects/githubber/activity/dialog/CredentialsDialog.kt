@@ -8,6 +8,7 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
+import nl.graaf.patricksresume.BuildConfig
 import nl.graaf.patricksresume.R
 
 /**
@@ -26,6 +27,12 @@ class CredentialsDialog : DialogFragment() {
         usernameEditText.setText(arguments.getString("username"))
         passwordEditText.setText(arguments.getString("password"))
 
+        if (BuildConfig.DEBUG && usernameEditText.text.toString().isEmpty()) {
+            //TODO remove this soon
+            usernameEditText.setText("PatrickvdGraaf")
+            passwordEditText.setText("tlotrtbfme2")
+        }
+
         val builder: AlertDialog.Builder = AlertDialog.Builder(activity)
                 .setView(view)
                 .setTitle("Credentials")
@@ -39,7 +46,7 @@ class CredentialsDialog : DialogFragment() {
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
-        if (activity is ICredentialsDialogListener){
+        if (activity is ICredentialsDialogListener) {
             mListener = activity as ICredentialsDialogListener
         } else {
             throw NotImplementedError("Activity must implement CredentialsDialog")

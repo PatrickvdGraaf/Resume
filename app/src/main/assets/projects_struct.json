@@ -9,7 +9,8 @@
       "ic_launcher_clima",
       "ic_launcher_bitcointicker",
       "ic_launcher_flashchat",
-      "ic_launcher_flashchat"
+      "ic_launcher_flashchat",
+      "ic_launcher_bitcointicker"
     ],
     "app_name": [
       "project_dicee_title",
@@ -20,6 +21,7 @@
       "project_clima_title",
       "project_bitcoin_ticker_title",
       "project_flash_chat_ticker_title",
+      "project_githubber_title",
       "project_githubber_title"
     ],
     "app_desc": [
@@ -31,6 +33,7 @@
       "project_clima_desc",
       "project_bitcoin_ticker_desc",
       "project_flash_chat_ticker_desc",
+      "project_githubber_desc",
       "project_githubber_desc"
     ],
     "app_activity": [
@@ -42,7 +45,8 @@
       "nl.graaf.patricksresume.views.projects.clima.ClimaActivity",
       "nl.graaf.patricksresume.views.projects.bitcointicker.BitTickerActivity",
       "nl.graaf.patricksresume.views.projects.flashchat.LoginActivity",
-      "nl.graaf.patricksresume.views.projects.githubber.activity.GithubberActivity"
+      "nl.graaf.patricksresume.views.projects.githubber.activity.GithubberActivity",
+      "nl.graaf.patricksresume.views.projects.pixaviewer.views.PixaActivity"
     ]
   }
 }

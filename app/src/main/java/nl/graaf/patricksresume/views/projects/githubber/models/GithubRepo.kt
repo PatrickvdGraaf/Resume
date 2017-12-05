@@ -7,24 +7,39 @@ package nl.graaf.patricksresume.views.projects.githubber.models
  */
 class GithubRepo {
     private var mName = ""
-    var owner = ""
+    private var mOwner = ""
     private var mUrl = ""
 
-    fun getName():String{
+    fun getName(): String {
         return mName
     }
 
-    fun setName(name:String?){
-        if (name == null){
+    fun setName(name: String?) {
+        if (name == null) {
             return
         }
         mName = name
     }
 
-    fun setUrl(url:String?){
-        if (url == null){
+    fun getOwner(): String {
+        return mOwner
+    }
+
+    fun setOwner(owner: String?) {
+        if (owner == null) {
+            return
+        }
+        mOwner = owner
+    }
+
+    fun setUrl(url: String?) {
+        if (url == null) {
             return
         }
         mUrl = url
+    }
+
+    override fun toString(): String {
+        return mName
     }
 }
