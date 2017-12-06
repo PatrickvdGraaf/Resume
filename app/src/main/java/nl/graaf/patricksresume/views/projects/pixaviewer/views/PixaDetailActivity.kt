@@ -18,6 +18,7 @@ class PixaDetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pixa_detail)
+
         val title = intent.getStringExtra(BUNDLE_KEY_TITLE)
         val imageUrl = intent.getStringExtra(BUNDLE_KEY_IMAGE)
         val titleTextView: TextView = findViewById(R.id.title)

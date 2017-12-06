@@ -2,6 +2,7 @@ package nl.graaf.patricksresume.views.projects.pixaviewer.network
 
 import io.reactivex.Single
 import retrofit2.http.GET
+import retrofit2.http.Query
 
 /**
  * Created by patrick on 12/5/17.
@@ -16,5 +17,5 @@ interface IPixaAPI {
     }
 
     @GET("api/")
-    fun getPictures(): Single<ImageResponse>
+    fun getPictures(@Query("page") page: Int): Single<ImageResponse>
 }

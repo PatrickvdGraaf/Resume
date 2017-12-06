@@ -40,7 +40,7 @@ class ImageResponse {
     @SerializedName("hits")
     private lateinit var mHits: ArrayList<Image>
 
-    fun getHints(): ArrayList<Image> {
+    fun getHits(): ArrayList<Image> {
         return mHits
     }
 }

@@ -56,10 +56,11 @@
         <activity
             android:name=".views.projects.githubber.activity.GithubberActivity"
             android:theme="@style/GithubberTheme"/>
-        <activity android:name=".views.projects.pixaviewer.views.PixaActivity">
-        </activity>
-        <activity android:name=".views.projects.pixaviewer.views.PixaDetailActivity">
-        </activity>
+        <activity android:name=".views.projects.pixaviewer.views.PixaActivity"
+                  android:theme="@style/PixaTheme"/>
+        <activity
+            android:name=".views.projects.pixaviewer.views.PixaDetailActivity"
+            android:theme="@style/PixaTheme"/>
     </application>
 
 </manifest>

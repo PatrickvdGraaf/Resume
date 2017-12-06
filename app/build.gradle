@@ -58,6 +58,12 @@ dependencies {
     kapt 'com.github.bumptech.glide:compiler:4.4.0'
 //    Palette
     compile 'com.android.support:palette-v7:27.0.2'
+//    Crashlytics
+//    compile('com.crashlytics.sdk.android:crashlytics:2.7.1@aar') {
+//        transitive = true
+//    }
+//    compile 'com.google.firebase:firebase-core:11.6.2'
+
 }
 
 apply plugin: 'com.google.gms.google-services'

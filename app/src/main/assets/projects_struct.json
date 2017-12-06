@@ -1,40 +1,16 @@
 {
   "projects": {
-    "app_icon": [
-      "ic_dicee",
-      "ic_xylophone",
-      "ic_eight_ball",
-      "ic_launcher_destini",
-      "ic_launcher_quizzler",
-      "ic_launcher_clima",
-      "ic_launcher_bitcointicker",
-      "ic_launcher_flashchat",
-      "ic_launcher_flashchat",
-      "ic_launcher_bitcointicker"
-    ],
     "app_name": [
-      "project_dicee_title",
-      "project_xylophone_title",
-      "project_eight_ball_title",
-      "project_destini_title",
-      "project_quizzler_title",
-      "project_clima_title",
-      "project_bitcoin_ticker_title",
-      "project_flash_chat_ticker_title",
-      "project_githubber_title",
-      "project_githubber_title"
-    ],
-    "app_desc": [
-      "project_dicee_desc",
-      "project_xylophone_desc",
-      "project_eight_ball_desc",
-      "project_destini_desc",
-      "project_quizzler_desc",
-      "project_clima_desc",
-      "project_bitcoin_ticker_desc",
-      "project_flash_chat_ticker_desc",
-      "project_githubber_desc",
-      "project_githubber_desc"
+      "dicee",
+      "xylophone",
+      "eight_ball",
+      "destini",
+      "quizzler",
+      "clima",
+      "bitcoin_ticker",
+      "flash_chat",
+      "flash_chat",
+      "bitcoin_ticker"
     ],
     "app_activity": [
       "nl.graaf.patricksresume.views.projects.dicee.launcher.DiceeLauncherActivity",

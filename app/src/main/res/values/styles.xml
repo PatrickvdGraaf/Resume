@@ -17,6 +17,15 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <!--Pixa application theme.-->
+    <style name="PixaTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/pixa_colorPrimary</item>
+        <item name="colorPrimaryDark">@color/pixa_colorPrimaryDark</item>
+        <item name="colorAccent">@color/pixa_colorAccent</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
     <!-- Dicee application theme. -->
     <style name="DiceeTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/diceeColorPrimary</item>

@@ -2,8 +2,10 @@ package nl.graaf.patricksresume.models
 
 import android.content.Context
 import android.content.Intent
+import android.content.res.Resources
 import org.json.JSONException
 import org.json.JSONObject
+import timber.log.Timber
 
 
 /**
@@ -13,9 +15,9 @@ import org.json.JSONObject
  */
 class Project {
     private var mIcon: Int = 0
-    private lateinit var mName: String
-    private lateinit var mDesc: String
-    private lateinit var mStartIntentName: String
+    private var mName: String = ""
+    private var mDesc: String = ""
+    private var mStartIntentName: String = ""
 
     @Throws(ClassNotFoundException::class)
     fun getStartIntent(context: Context): Intent {
@@ -39,24 +41,35 @@ class Project {
         @Throws(JSONException::class)
         fun fromJson(context: Context, jsonObject: JSONObject): Project {
             val project = Project()
-            project.mName = getStringFor(jsonObject.getString("app_name"), context)
-            project.mDesc = getStringFor(jsonObject.getString("app_desc"), context)
-            project.mIcon = getImageFor(jsonObject.getString("app_icon"), context)
-            project.mStartIntentName = jsonObject.getString("app_activity")
+            val appName = jsonObject.getString("app_name")
+            try {
+                Timber.d(String.format("project_%s_title", appName))
+                project.mName = getStringFor(String.format("project_%s_title", appName), context)
+                project.mDesc = getStringFor(String.format("project_%s_desc", appName), context)
+                project.mIcon = getImageFor(String.format("ic_launcher_%s", appName), context)
+                project.mStartIntentName = jsonObject.getString("app_activity")
+            } catch (ex: Resources.NotFoundException) {
+                Timber.e(ex, String.format("Project could not load resources for appName: %s",
+                        appName))
+            }
 
             return project
         }
 
         fun fromProperties(context: Context, projectJson: JSONObject, index: Int): Project {
             val project = Project()
-            project.mName = getStringFor(projectJson.getJSONArray("app_name")
-                    .getString(index), context)
-            project.mDesc = getStringFor(projectJson.getJSONArray("app_desc")
-                    .getString(index), context)
-            project.mIcon = getImageFor(projectJson.getJSONArray("app_icon")
-                    .getString(index), context)
-            project.mStartIntentName = projectJson.getJSONArray("app_activity")
-                    .getString(index)
+            val appName = projectJson.getJSONArray("app_name").getString(index)
+            try {
+                project.mName = getStringFor(String.format("project_%s_title", appName), context)
+                project.mDesc = getStringFor(String.format("project_%s_desc", appName), context)
+                project.mIcon = getImageFor(String.format("ic_launcher_%s", appName), context)
+                project.mStartIntentName = projectJson.getJSONArray("app_activity")
+                        .getString(index)
+            } catch (ex: Resources.NotFoundException) {
+                Timber.e(ex, String.format("Project could not load resources for appName: %s",
+                        appName))
+            }
+
             return project
         }
 

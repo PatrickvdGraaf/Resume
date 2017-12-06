@@ -1,6 +1,5 @@
 package nl.graaf.patricksresume.views.projects.pixaviewer.views.adapter
 
-import android.app.Activity
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
@@ -8,10 +7,10 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.support.constraint.ConstraintLayout
 import android.support.v7.graphics.Palette
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.load.DataSource
@@ -30,47 +29,61 @@ import timber.log.Timber
  *
  * © Copyright 2017
  */
-class PixaAdapter(context: Context, textViewResourceId: Int, objects: ArrayList<Image>)
-    : ArrayAdapter<Image>(context, textViewResourceId, objects) {
-    private val mContext: Context = context
-    private val mLayoutResourceId: Int = textViewResourceId
+class PixaAdapter(context: Context, objects: ArrayList<Image>)
+    : RecyclerView.Adapter<PixaAdapter.PixaViewHolder>() {
+
     private val mData = objects
+    private val mContext = context
 
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-        var row: View? = convertView
-        val holder: PixaViewHolder?
-
-        if (row == null) {
-            val inflater: LayoutInflater = (context as Activity).layoutInflater
-            row = inflater.inflate(mLayoutResourceId, parent, false)
-            holder = PixaViewHolder()
-            holder.setView(row)
-            row.tag = holder
-        } else {
-            holder = row.tag as PixaViewHolder?
-        }
-
-        if (row == null) {
-            Timber.e("Could not inflate PixaImage-view for GridView")
-            return super.getView(position, convertView, parent)
-        }
-
-        val item: Image = mData[position]
-        holder?.setImage(mContext, item)
-
-        return row
+    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): PixaViewHolder {
+        val inflater = LayoutInflater.from(parent?.context)
+        val view = inflater.inflate(R.layout.grid_item_pixa_image, parent, false)
+        return PixaViewHolder(view)
     }
 
-    inner class PixaViewHolder {
-        private lateinit var mTextView: TextView
-        private lateinit var mImageView: ImageView
-        private lateinit var mBackground: ConstraintLayout
+    override fun getItemCount(): Int {
+        return mData.size
+    }
 
-        fun setView(view: View) {
-            mTextView = view.findViewById(R.id.text)
-            mImageView = view.findViewById(R.id.image)
-            mBackground = view.findViewById(R.id.background)
+    override fun onBindViewHolder(holder: PixaViewHolder?, position: Int) {
+        holder?.setImage(mContext, mData[position])
+    }
+
+    fun getImageForIndex(index: Int): Image? {
+        if (index <= itemCount) {
+            return mData[index]
         }
+        return null
+    }
+
+    fun add(position: Int, item: Image) {
+        mData.add(item)
+        notifyItemInserted(position)
+    }
+
+    fun remove(position: Int) {
+        mData.removeAt(position)
+        notifyItemRemoved(position)
+    }
+
+    fun addObjects(objects: ArrayList<Image>) {
+        for (image in objects) {
+            add(itemCount, image)
+        }
+    }
+
+    fun getImagePage(): Int {
+        val page: Int = mData.size / 20
+        if (page <= 0) {
+            return 1
+        }
+        return page + 1
+    }
+
+    inner class PixaViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private var mTextView: TextView = itemView.findViewById(R.id.text)
+        private var mImageView: ImageView = itemView.findViewById(R.id.image)
+        private var mBackground: ConstraintLayout = itemView.findViewById(R.id.background)
 
         fun setImage(context: Context, image: Image) {
             if (image.getRGB() != 0) {
@@ -82,7 +95,8 @@ class PixaAdapter(context: Context, textViewResourceId: Int, objects: ArrayList<
             GlideApp.with(context)
                     .load(image.webformatURL)
                     .centerCrop()
-                    .thumbnail(0.1f)
+                    .thumbnail(GlideApp.with(context)
+                            .load("https://www.telesurtv.net/arte/loading2.gif"))
                     .listener(object : RequestListener<Drawable> {
                         override fun onLoadFailed(e: GlideException?,
                                                   model: Any?,

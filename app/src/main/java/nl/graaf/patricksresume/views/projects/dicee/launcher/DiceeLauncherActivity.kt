@@ -12,7 +12,6 @@ import nl.graaf.patricksresume.views.projects.dicee.DiceeActivity
 class DiceeLauncherActivity : BaseActivity() {
     companion object {
         private val TRANSITION_DELAY_MILLIS: Long = 1500
-        private val FINISH_DELAY_MILLIS: Long = 100
         private lateinit var mHandler: Handler
         private var mRunnable: Runnable? = null
 
@@ -24,12 +23,10 @@ class DiceeLauncherActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dicee_launcher)
-        val handler = Handler()
 
         mRunnable = Runnable {
             startActivity(DiceeActivity.getStartIntent(applicationContext))
             finish()
-//            handler.postDelayed({ finish() }, FINISH_DELAY_MILLIS)
         }
     }
 

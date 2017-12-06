@@ -5,19 +5,19 @@ package nl.graaf.patricksresume.views.helpers;
  */
 
 public final class CrashLibrary {
+    private CrashLibrary() {
+        throw new AssertionError("No instances.");
+    }
+
     public static void log(int priority, String tag, String message) {
-        // TODO add log entry to circular buffer.
+//        Crashlytics.log(priority, tag, message);
     }
 
     public static void logWarning(Throwable t) {
-        // TODO report non-fatal warning.
+//        Crashlytics.logException(t);
     }
 
     public static void logError(Throwable t) {
-        // TODO report non-fatal error.
-    }
-
-    private CrashLibrary() {
-        throw new AssertionError("No instances.");
+//        Crashlytics.logException(t);
     }
 }
