@@ -19,7 +19,7 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import nl.graaf.patricksresume.R
 import nl.graaf.patricksresume.views.helpers.GlideApp
-import nl.graaf.patricksresume.views.projects.pixaviewer.models.Image
+import nl.graaf.patricksresume.views.projects.pixaviewer.models.PixaImage
 import timber.log.Timber
 
 
@@ -29,7 +29,7 @@ import timber.log.Timber
  *
  * © Copyright 2017
  */
-class PixaAdapter(context: Context, objects: ArrayList<Image>)
+class PixaAdapter(context: Context, objects: ArrayList<PixaImage>)
     : RecyclerView.Adapter<PixaAdapter.PixaViewHolder>() {
 
     private val mData = objects
@@ -49,14 +49,14 @@ class PixaAdapter(context: Context, objects: ArrayList<Image>)
         holder?.setImage(mContext, mData[position])
     }
 
-    fun getImageForIndex(index: Int): Image? {
+    fun getImageForIndex(index: Int): PixaImage? {
         if (index <= itemCount) {
             return mData[index]
         }
         return null
     }
 
-    fun add(position: Int, item: Image) {
+    fun add(position: Int, item: PixaImage) {
         mData.add(item)
         notifyItemInserted(position)
     }
@@ -72,7 +72,7 @@ class PixaAdapter(context: Context, objects: ArrayList<Image>)
         notifyItemRemoved(position)
     }
 
-    fun addObjects(objects: ArrayList<Image>) {
+    fun addObjects(objects: ArrayList<PixaImage>) {
         for (image in objects) {
             add(itemCount, image)
         }
@@ -91,7 +91,7 @@ class PixaAdapter(context: Context, objects: ArrayList<Image>)
         private var mImageView: ImageView = itemView.findViewById(R.id.image)
         private var mBackground: ConstraintLayout = itemView.findViewById(R.id.background)
 
-        fun setImage(context: Context, image: Image) {
+        fun setImage(context: Context, image: PixaImage) {
             if (image.getRGB() != 0) {
                 mBackground.setBackgroundColor(image.getRGB())
             }
@@ -121,11 +121,14 @@ class PixaAdapter(context: Context, objects: ArrayList<Image>)
                                 Palette.from(drawableToBitmap(resource))
                                         .generate { palette ->
                                             val textSwatch: Palette.Swatch? = palette.vibrantSwatch
+                                            image.swatch = textSwatch
                                             if (textSwatch != null) {
                                                 mTextView.setTextColor(textSwatch.titleTextColor)
                                                 setBackgroundColor(textSwatch.rgb)
                                                 image.setRGB(textSwatch.rgb)
                                                 image.setPrimaryTextColor(textSwatch.titleTextColor)
+                                            }else{
+                                                setBackgroundColor(R.color.pixa_colorPrimaryLight)
                                             }
                                         }
                             } else {
@@ -139,8 +142,8 @@ class PixaAdapter(context: Context, objects: ArrayList<Image>)
         }
 
         private fun setBackgroundColor(color: Int) {
-            mTextView.setBackgroundColor(color)
-//            mTextView.alpha = 0.7f
+//            mTextView.setBackgroundColor(color)
+            mTextView.alpha = PixaImage.BACKGROUND_ALPHA
         }
 
         private fun drawableToBitmap(drawable: Drawable): Bitmap {

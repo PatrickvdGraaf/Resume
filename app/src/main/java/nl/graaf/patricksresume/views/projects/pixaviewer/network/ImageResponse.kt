@@ -3,7 +3,7 @@ package nl.graaf.patricksresume.views.projects.pixaviewer.network
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.google.gson.annotations.SerializedName
-import nl.graaf.patricksresume.views.projects.pixaviewer.models.Image
+import nl.graaf.patricksresume.views.projects.pixaviewer.models.PixaImage
 import org.json.JSONException
 
 /**
@@ -25,7 +25,7 @@ class ImageResponse {
                 val jsonHitsArray: JsonArray = jsonObject.getAsJsonArray("hits")
                 (0..(jsonHitsArray.size() - 1))
                         .map { jsonHitsArray.get(it) }
-                        .forEach { imageResponse.mHits.add(Image.fromJson(it.asJsonObject)) }
+                        .forEach { imageResponse.mHits.add(PixaImage.fromJson(it.asJsonObject)) }
             }
 
 
@@ -38,9 +38,9 @@ class ImageResponse {
     @SerializedName("totalHits")
     var mTotalHits: Int = 0
     @SerializedName("hits")
-    private lateinit var mHits: ArrayList<Image>
+    private lateinit var mHits: ArrayList<PixaImage>
 
-    fun getHits(): ArrayList<Image> {
+    fun getHits(): ArrayList<PixaImage> {
         return mHits
     }
 }

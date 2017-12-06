@@ -78,7 +78,7 @@
 
         <activity
             android:name=".views.projects.pixaviewer.views.PixaDetailActivity"
-            android:theme="@style/PixaTheme"/>
+            android:theme="@style/PixaPictureTheme"/>
     </application>
 
 </manifest>

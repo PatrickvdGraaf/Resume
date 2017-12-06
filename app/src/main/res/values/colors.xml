@@ -10,6 +10,8 @@
     <color name="pixa_colorPrimaryDark">#000a12</color>
     <color name="pixa_colorPrimaryLight">#4f5b62</color>
     <color name="pixa_colorAccent">#29b670</color>
+    <color name="semi_transparent">#7d000000</color>
+    <color name="black_overlay">#66000000</color>
 
     <!--Flash Chat-->
     <color name="flash_chat_yellow">#f1c40f</color>
@@ -43,6 +45,4 @@
     <color name="colorText">#ecf0f1</color>
     <color name="colorTrueButton">#27ae60</color>
     <color name="colorFalseButton">#c0392b</color>
-
-    <color name="black_overlay">#66000000</color>
 </resources>

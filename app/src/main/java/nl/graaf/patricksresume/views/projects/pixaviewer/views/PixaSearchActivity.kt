@@ -16,7 +16,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableSingleObserver
 import io.reactivex.schedulers.Schedulers
 import nl.graaf.patricksresume.R
-import nl.graaf.patricksresume.views.projects.pixaviewer.models.Image
+import nl.graaf.patricksresume.views.projects.pixaviewer.models.PixaImage
 import nl.graaf.patricksresume.views.projects.pixaviewer.network.IPixaAPI
 import nl.graaf.patricksresume.views.projects.pixaviewer.network.ImageResponse
 import nl.graaf.patricksresume.views.projects.pixaviewer.views.adapter.OnItemClickListener
@@ -75,12 +75,9 @@ class PixaSearchActivity : AppCompatActivity(), OnItemClickListener {
     }
 
     override fun onItemClick(view: View, position: Int) {
-        val item: Image? = mAdapter.getImageForIndex(position)
+        val item: PixaImage? = mAdapter.getImageForIndex(position)
         if (item != null) {
             val intent = Intent(this@PixaSearchActivity, PixaDetailActivity::class.java)
-            intent.putExtra(PixaDetailActivity.BUNDLE_KEY_TITLE,
-                    String.format("%sx%s", item.imageWidth, item.imageHeight))
-            intent.putExtra(PixaDetailActivity.BUNDLE_KEY_IMAGE, item.webformatURL)
             var options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, view,
                     applicationContext.getString(R.string.transition_open_app_name))
 

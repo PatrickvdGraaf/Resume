@@ -1,7 +1,6 @@
 package nl.graaf.patricksresume.views.projects.pixaviewer.views
 
 import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v4.app.ActivityOptionsCompat
@@ -18,7 +17,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableSingleObserver
 import io.reactivex.schedulers.Schedulers
 import nl.graaf.patricksresume.R
-import nl.graaf.patricksresume.views.projects.pixaviewer.models.Image
+import nl.graaf.patricksresume.views.projects.pixaviewer.models.PixaImage
 import nl.graaf.patricksresume.views.projects.pixaviewer.network.ClientBuilder
 import nl.graaf.patricksresume.views.projects.pixaviewer.network.IPixaAPI
 import nl.graaf.patricksresume.views.projects.pixaviewer.network.ImageResponse
@@ -92,12 +91,9 @@ class PixaActivity : AppCompatActivity(), OnItemClickListener {
     }
 
     override fun onItemClick(view: View, position: Int) {
-        val item: Image? = mAdapter.getImageForIndex(position)
-        if (item != null) {
-            val intent = Intent(this@PixaActivity, PixaDetailActivity::class.java)
-            intent.putExtra(PixaDetailActivity.BUNDLE_KEY_TITLE,
-                    String.format("%sx%s", item.imageWidth, item.imageHeight))
-            intent.putExtra(PixaDetailActivity.BUNDLE_KEY_IMAGE, item.webformatURL)
+        val pixaImage: PixaImage? = mAdapter.getImageForIndex(position)
+        if (pixaImage != null) {
+            val intent = PixaDetailActivity.getStartIntent(this@PixaActivity, pixaImage)
             var options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, view,
                     applicationContext.getString(R.string.transition_open_app_name))
 
