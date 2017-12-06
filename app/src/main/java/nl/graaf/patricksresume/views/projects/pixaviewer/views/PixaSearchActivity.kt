@@ -1,6 +1,6 @@
 package nl.graaf.patricksresume.views.projects.pixaviewer.views
 
-import android.app.Activity
+import android.app.SearchManager
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.Snackbar
@@ -9,8 +9,6 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
-import android.view.Menu
-import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -19,7 +17,6 @@ import io.reactivex.observers.DisposableSingleObserver
 import io.reactivex.schedulers.Schedulers
 import nl.graaf.patricksresume.R
 import nl.graaf.patricksresume.views.projects.pixaviewer.models.Image
-import nl.graaf.patricksresume.views.projects.pixaviewer.network.ClientBuilder
 import nl.graaf.patricksresume.views.projects.pixaviewer.network.IPixaAPI
 import nl.graaf.patricksresume.views.projects.pixaviewer.network.ImageResponse
 import nl.graaf.patricksresume.views.projects.pixaviewer.views.adapter.OnItemClickListener
@@ -28,7 +25,7 @@ import nl.graaf.patricksresume.views.projects.pixaviewer.views.adapter.PixaItemC
 import retrofit2.HttpException
 import timber.log.Timber
 
-class PixaActivity : AppCompatActivity(), OnItemClickListener {
+class PixaSearchActivity : AppCompatActivity(), OnItemClickListener {
     companion object {
         val spanCount = 3
     }
@@ -36,19 +33,22 @@ class PixaActivity : AppCompatActivity(), OnItemClickListener {
     private var iPixaAPI: IPixaAPI? = null
     private val compositeDisposable = CompositeDisposable()
     private lateinit var mRecyclerView: RecyclerView
-    private val mLayoutManager = GridLayoutManager(this@PixaActivity, spanCount)
-    private var mAdapter: PixaAdapter = PixaAdapter(this@PixaActivity, ArrayList())
+    private val mLayoutManager = GridLayoutManager(this@PixaSearchActivity, spanCount)
+    private var mAdapter: PixaAdapter = PixaAdapter(this@PixaSearchActivity, ArrayList())
     private var isGettingImages: Boolean = false
+
+    private var mQuery: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_pixa)
+        setContentView(R.layout.activity_pixa_search)
 
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
-        title = "PixaViewer"
 
-        iPixaAPI = ClientBuilder.getPixaAPIClient()
+        if (intent.action == Intent.ACTION_SEARCH) {
+            mQuery = intent.getStringExtra(SearchManager.QUERY)
+        }
 
         mRecyclerView = findViewById(R.id.recyclerView)
         mRecyclerView.isNestedScrollingEnabled = true
@@ -61,30 +61,13 @@ class PixaActivity : AppCompatActivity(), OnItemClickListener {
                 val totalItemCount = mLayoutManager.itemCount
                 val pastVisibleItems = mLayoutManager.findFirstVisibleItemPosition()
                 if (pastVisibleItems + visibleItemCount >= totalItemCount - spanCount * 2) {
-                    getImages()
+                    getImages(mQuery)
                 }
             }
         })
-        mRecyclerView.addOnItemTouchListener(PixaItemClickListener(this@PixaActivity,
+        mRecyclerView.addOnItemTouchListener(PixaItemClickListener(this@PixaSearchActivity,
                 mRecyclerView, this))
-
-        setDefaultKeyMode(Activity.DEFAULT_KEYS_SEARCH_LOCAL)
-
-        getImages()
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_pixa, menu)
-        // Associate searchable configuration with the SearchView
-//        val searchManager: SearchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
-//        val searchView: SearchView = menu?.findItem(R.id.search)?.actionView as SearchView
-//        searchView.setSearchableInfo(searchManager.getSearchableInfo(componentName))
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
-        R.id.search -> onSearchRequested()
-        else -> super.onOptionsItemSelected(item)
+        getImages(mQuery)
     }
 
     override fun onLongItemClick(view: View, position: Int) {
@@ -94,7 +77,7 @@ class PixaActivity : AppCompatActivity(), OnItemClickListener {
     override fun onItemClick(view: View, position: Int) {
         val item: Image? = mAdapter.getImageForIndex(position)
         if (item != null) {
-            val intent = Intent(this@PixaActivity, PixaDetailActivity::class.java)
+            val intent = Intent(this@PixaSearchActivity, PixaDetailActivity::class.java)
             intent.putExtra(PixaDetailActivity.BUNDLE_KEY_TITLE,
                     String.format("%sx%s", item.imageWidth, item.imageHeight))
             intent.putExtra(PixaDetailActivity.BUNDLE_KEY_IMAGE, item.webformatURL)
@@ -111,9 +94,10 @@ class PixaActivity : AppCompatActivity(), OnItemClickListener {
         }
     }
 
-    private fun getImages() {
+    private fun getImages(query: String) {
         if (!isGettingImages) {
-            compositeDisposable.add(iPixaAPI?.getPictures(getImagePage())
+            mAdapter.removeAll()
+            compositeDisposable.add(iPixaAPI?.getPictures(getImagePage(), query)
                     ?.subscribeOn(Schedulers.io())
                     ?.observeOn(AndroidSchedulers.mainThread())
                     ?.subscribeWith(getImageObserver()))
@@ -142,8 +126,9 @@ class PixaActivity : AppCompatActivity(), OnItemClickListener {
                 if (e is HttpException) {
                     when (e.code()) {
                         429 -> Snackbar.make(mRecyclerView,
-                                "Too many requests in a short time", Snackbar.LENGTH_SHORT)
-                                .setAction("RETRY", { getImages() })
+                                "Too many requests in a short time",
+                                Snackbar.LENGTH_SHORT)
+                                .setAction("RETRY", { getImages(mQuery) })
                                 .show()
                     }
                 }

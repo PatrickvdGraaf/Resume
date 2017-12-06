@@ -18,4 +18,7 @@ interface IPixaAPI {
 
     @GET("api/")
     fun getPictures(@Query("page") page: Int): Single<ImageResponse>
+
+    @GET("api/")
+    fun getPictures(@Query("page") page: Int, @Query("q") query: String): Single<ImageResponse>
 }

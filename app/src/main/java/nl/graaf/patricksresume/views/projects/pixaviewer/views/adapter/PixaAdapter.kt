@@ -61,7 +61,13 @@ class PixaAdapter(context: Context, objects: ArrayList<Image>)
         notifyItemInserted(position)
     }
 
-    fun remove(position: Int) {
+    fun removeAll() {
+        while (itemCount != 0) {
+            remove(itemCount - 1)
+        }
+    }
+
+    private fun remove(position: Int) {
         mData.removeAt(position)
         notifyItemRemoved(position)
     }
@@ -94,7 +100,6 @@ class PixaAdapter(context: Context, objects: ArrayList<Image>)
             }
             GlideApp.with(context)
                     .load(image.webformatURL)
-                    .centerCrop()
                     .thumbnail(GlideApp.with(context)
                             .load("https://www.telesurtv.net/arte/loading2.gif"))
                     .listener(object : RequestListener<Drawable> {

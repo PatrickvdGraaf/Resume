@@ -33,11 +33,9 @@ class Image {
             image.user = jsonObject.get("user").asString
             image.userImageUrl = jsonObject.get("userImageURL").asString
 
-//            image.tags = jsonObject.getJSONArray("id")
-//            val jsonHitsArray: JSONArray = jsonObject.getJSONArray("tags")
-//            (0..(jsonHitsArray.length() - 1))
-//                    .map { jsonHitsArray.getString(it) }
-//                    .forEach { image.tags.add(jsonHitsArray.getString(it)) }
+            val tagsArray: String = jsonObject.get("tags").asString
+            image.tags = tagsArray.split(",")
+
             return image
         }
     }
@@ -45,7 +43,7 @@ class Image {
     var id: Int = 0
     lateinit var pageUrl: String
     lateinit var type: String
-    lateinit var tags: ArrayList<String>
+    lateinit var tags: List<String>
     lateinit var previewURL: String
     var previewWidth: Int = 0
     var previewHeight: Int = 0
@@ -72,6 +70,7 @@ class Image {
     fun getRGB(): Int {
         return mRgb
     }
+
     fun setPrimaryTextColor(textColor: Int) {
         mPrimaryTextColor = textColor
     }
