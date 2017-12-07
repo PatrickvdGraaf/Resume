@@ -1,5 +1,6 @@
 package nl.graaf.patricksresume.views.projects.pixaviewer.models
 
+import android.graphics.Color
 import android.os.Parcel
 import android.os.Parcelable
 import android.support.v7.graphics.Palette
@@ -14,7 +15,8 @@ import org.json.JSONException
  */
 class PixaImage() : Parcelable {
     companion object CREATOR : Parcelable.Creator<PixaImage> {
-        val BACKGROUND_ALPHA: Float = 0.4f
+        const val BACKGROUND_ALPHA: Int = 64
+        const val BACKGROUND_ALPHA_FLOAT: Float = BACKGROUND_ALPHA / 255f
 
         @Throws(JSONException::class)
         fun fromJson(jsonObject: JsonObject): PixaImage {
@@ -73,10 +75,9 @@ class PixaImage() : Parcelable {
     var user_id: Int = 0
     var user: String = ""
     var userImageUrl: String = ""
-    private var mRgb: Int = 0
-    private var mPrimaryTextColor = 0
-
-    var swatch: Palette.Swatch? = null
+    var titleTextColor: Int = Color.WHITE
+    var bodyTextColor: Int = Color.WHITE
+    var rgb: Int = Color.GRAY
 
     constructor(parcel: Parcel) : this() {
         id = parcel.readInt()
@@ -99,27 +100,20 @@ class PixaImage() : Parcelable {
         user_id = parcel.readInt()
         user = parcel.readString()
         userImageUrl = parcel.readString()
-        mRgb = parcel.readInt()
-        mPrimaryTextColor = parcel.readInt()
+        rgb = parcel.readInt()
+        titleTextColor = parcel.readInt()
+        bodyTextColor = parcel.readInt()
     }
 
     //TODO Separate into PixaImage and PixaImageView?
     //TODO Make functions to transform views into the style of the image (setTextView(textView))
 
-    fun setRGB(rgb: Int) {
-        mRgb = rgb
+    fun hasColors(): Boolean {
+        return rgb != Color.GRAY
     }
 
-    fun getRGB(): Int {
-        return mRgb
-    }
-
-    fun setPrimaryTextColor(textColor: Int) {
-        mPrimaryTextColor = textColor
-    }
-
-    fun getPrimaryTextColor(): Int {
-        return mPrimaryTextColor
+    override fun describeContents(): Int {
+        return 0
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -143,11 +137,24 @@ class PixaImage() : Parcelable {
         parcel.writeInt(user_id)
         parcel.writeString(user)
         parcel.writeString(userImageUrl)
-        parcel.writeInt(mRgb)
-        parcel.writeInt(mPrimaryTextColor)
+        parcel.writeInt(rgb)
+        parcel.writeInt(titleTextColor)
+        parcel.writeInt(bodyTextColor)
     }
 
-    override fun describeContents(): Int {
-        return 0
+    fun setPaletteValues(palette: Palette) {
+        if (palette.dominantSwatch != null) {
+            rgb = palette.dominantSwatch!!.rgb
+            titleTextColor = palette.dominantSwatch!!.titleTextColor
+            bodyTextColor = palette.dominantSwatch!!.bodyTextColor
+        } else {
+            for (swatch in palette.swatches) {
+                if (swatch != null) {
+                    rgb = swatch.rgb
+                    titleTextColor = swatch.titleTextColor
+                    bodyTextColor = swatch.bodyTextColor
+                }
+            }
+        }
     }
 }

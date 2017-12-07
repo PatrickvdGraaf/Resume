@@ -1,6 +1,7 @@
 package nl.graaf.patricksresume.views.projects.pixaviewer.views
 
 import android.app.Activity
+import android.app.ActivityOptions
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v4.app.ActivityOptionsCompat
@@ -11,7 +12,6 @@ import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.ImageView
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableSingleObserver
@@ -29,7 +29,8 @@ import timber.log.Timber
 
 class PixaActivity : AppCompatActivity(), OnItemClickListener {
     companion object {
-        val spanCount = 3
+        const val spanCount = 3
+        const val KEY_ITEMS = "KEY_ITEMS"
     }
 
     private var iPixaAPI: IPixaAPI? = null
@@ -46,6 +47,11 @@ class PixaActivity : AppCompatActivity(), OnItemClickListener {
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         title = "PixaViewer"
+
+        if (savedInstanceState != null) {
+            val items: ArrayList<PixaImage> = savedInstanceState.getParcelableArrayList(KEY_ITEMS)
+            mAdapter.setData(items)
+        }
 
         iPixaAPI = ClientBuilder.getPixaAPIClient()
 
@@ -72,6 +78,11 @@ class PixaActivity : AppCompatActivity(), OnItemClickListener {
         getImages()
     }
 
+    override fun onSaveInstanceState(outState: Bundle?) {
+        super.onSaveInstanceState(outState)
+        outState?.putParcelableArrayList(KEY_ITEMS, mAdapter.getItems())
+    }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_pixa, menu)
         // Associate searchable configuration with the SearchView
@@ -94,16 +105,23 @@ class PixaActivity : AppCompatActivity(), OnItemClickListener {
         val pixaImage: PixaImage? = mAdapter.getImageForIndex(position)
         if (pixaImage != null) {
             val intent = PixaDetailActivity.getStartIntent(this@PixaActivity, pixaImage)
-            var options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, view,
+            ActivityOptionsCompat.makeSceneTransitionAnimation(
+                    this,
+                    view,
                     applicationContext.getString(R.string.transition_open_app_name))
-
-            val imageView: ImageView? = view.findViewById(R.id.image)
-            if (imageView != null) {
-                options = ActivityOptionsCompat.makeSceneTransitionAnimation(this,
-                        imageView, applicationContext.getString(R.string.transition_open_app_image))
-            }
-
-            startActivity(intent, options.toBundle())
+            val imageAnim: android.util.Pair<View, String> =
+                    android.util.Pair.create(view.findViewById<View>(R.id.image),
+                            applicationContext.getString(R.string.transition_open_app_image))
+            val contentAnim: android.util.Pair<View, String> =
+                    android.util.Pair.create(view.findViewById<View>(R.id.content),
+                            applicationContext.getString(R.string.transition_open_app_content))
+            val textAnim: android.util.Pair<View, String> =
+                    android.util.Pair.create(view.findViewById<View>(R.id.text),
+                            applicationContext.getString(R.string.transition_open_app_textview))
+            val transitionActivityOptions: ActivityOptions
+                    = ActivityOptions.makeSceneTransitionAnimation(this@PixaActivity,
+                    imageAnim, contentAnim, textAnim)
+            startActivity(intent, transitionActivityOptions.toBundle())
         }
     }
 

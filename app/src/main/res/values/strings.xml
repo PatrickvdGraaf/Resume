@@ -23,6 +23,8 @@
     <string name="contentDescriptionDiceeIcon">Dicee Icon</string>
     <string name="transition_open_app_name">open_app</string>
     <string name="transition_open_app_image">open_image</string>
+    <string name="transition_open_app_content">open_content</string>
+    <string name="transition_open_app_textview">open_textview</string>
 
     <!--Destini-->
     <string name="T1_Story">Your car has blown a tire on a winding road in the middle of nowhere with no cell phone reception. You decide to hitchhike. A rusty pickup truck rumbles to a stop next to you. A man with a wide brimmed hat with soulless eyes opens the passenger door for you and asks: \"Need a ride, boy?\". </string>
@@ -132,5 +134,6 @@
     <!--Githubber-->
     <string name="project_githubber_title">Githubber</string>
     <string name="project_githubber_desc"><!--TODO--></string>
+    <string name="msg_loading">Loading...</string>
 
 </resources>

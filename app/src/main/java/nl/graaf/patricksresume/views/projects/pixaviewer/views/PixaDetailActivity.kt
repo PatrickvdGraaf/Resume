@@ -2,16 +2,21 @@ package nl.graaf.patricksresume.views.projects.pixaviewer.views
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
-import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.TextView
-import com.readystatesoftware.systembartint.SystemBarTintManager
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 import nl.graaf.patricksresume.R
 import nl.graaf.patricksresume.views.helpers.GlideApp
 import nl.graaf.patricksresume.views.projects.pixaviewer.models.PixaImage
+import nl.graaf.patricksresume.views.projects.pixaviewer.views.color.ColorUtils
 import timber.log.Timber
 
 class PixaDetailActivity : AppCompatActivity() {
@@ -31,38 +36,57 @@ class PixaDetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pixa_detail)
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
-
-        val tintManager = SystemBarTintManager(this@PixaDetailActivity)
-        tintManager.isStatusBarTintEnabled = true
-        tintManager.setNavigationBarTintEnabled(true)
+                or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
 
         mPixaImage = intent.getParcelableExtra(BUNDLE_KEY_IMAGE)
 
         val titleTextView: TextView = findViewById(R.id.title)
+        val bodyTextView: TextView = findViewById(R.id.tags)
         val imageView: ImageView = findViewById(R.id.image)
         imageView.setOnClickListener({
             toggleHideyBar()
         })
 
+        supportPostponeEnterTransition()
+
         //TODO use bitmap from memory to bypass reloading
         GlideApp.with(this@PixaDetailActivity)
                 .load(mPixaImage.webformatURL)
                 .centerInside()
+                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                .listener(object : RequestListener<Drawable> {
+                    override fun onResourceReady(resource: Drawable?, model: Any?,
+                                                 target: Target<Drawable>?, dataSource: DataSource?,
+                                                 isFirstResource: Boolean): Boolean {
+                        this@PixaDetailActivity.supportStartPostponedEnterTransition()
+                        return false
+                    }
+
+                    override fun onLoadFailed(e: GlideException?, model: Any?,
+                                              target: Target<Drawable>?,
+                                              isFirstResource: Boolean): Boolean {
+                        Timber.e(e)
+                        return true
+                    }
+                })
                 .into(imageView)
 
         val contentView = findViewById<View>(R.id.content)
-        contentView.setBackgroundColor(mPixaImage.getRGB())
-        contentView.alpha = PixaImage.BACKGROUND_ALPHA
+        contentView.setBackgroundColor(ColorUtils.modifyAlpha(mPixaImage.rgb,
+                PixaImage.BACKGROUND_ALPHA_FLOAT))
+//        contentView.background.alpha = PixaImage.BACKGROUND_ALPHA
+        contentView.setPadding(contentView.paddingStart,
+                contentView.paddingTop,
+                contentView.paddingEnd,
+                contentView.paddingBottom
+                        + (supportActionBar?.height ?: 64))
+
+//        titleTextView.setTextColor(mPixaImage.titleTextColor)
+//        bodyTextView.setTextColor(mPixaImage.bodyTextColor)
 
         titleTextView.text = String.format("%sx%s", mPixaImage.imageWidth, mPixaImage.imageHeight)
-//        titleTextView.setTextColor(mPixaImage.getPrimaryTextColor())
-
-//        tintManager.setStatusBarAlpha(PixaImage.BACKGROUND_ALPHA)
-        Timber.d("%s", mPixaImage.getRGB())
-        window.statusBarColor = mPixaImage.getRGB()
+        bodyTextView.text = mPixaImage.tags.toString()
     }
 
     /**
@@ -75,7 +99,7 @@ class PixaDetailActivity : AppCompatActivity() {
         var newUiOptions = uiOptions
         val isImmersiveModeEnabled = ((uiOptions or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
                 == uiOptions)
-        if (isImmersiveModeEnabled){
+        if (isImmersiveModeEnabled) {
             Timber.d("Turning immersive mode mode off. ")
         } else {
             Timber.d("Turning immersive mode mode on.")
@@ -96,15 +120,20 @@ class PixaDetailActivity : AppCompatActivity() {
         // the screen.
         newUiOptions = newUiOptions xor View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
         window.decorView.systemUiVisibility = newUiOptions
+        actionBar?.hide()
     }
 
-    private fun toggleContentView(isImmersiveModeEnabled: Boolean){
+    private fun toggleContentView(isImmersiveModeEnabled: Boolean) {
         val contentView: View = findViewById<View>(R.id.content)
         contentView.animate()
-                .translationY(if (isImmersiveModeEnabled){
+                .translationY(if (isImmersiveModeEnabled) {
                     1.0f
                 } else {
-                    contentView.height.toFloat()
+                    val resources = resources
+                    val resourceId = resources.getIdentifier("navigation_bar_height",
+                            "dimen",
+                            "android")
+                    contentView.height.toFloat() + resources.getDimensionPixelSize(resourceId)
                 })
                 .setListener(null)
     }
