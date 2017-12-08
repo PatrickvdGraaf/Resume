@@ -6,8 +6,8 @@ import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v4.app.ActivityOptionsCompat
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.StaggeredGridLayoutManager
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
@@ -29,20 +29,21 @@ import timber.log.Timber
 
 class PixaActivity : AppCompatActivity(), OnItemClickListener {
     companion object {
-        const val spanCount = 3
+        const val spanCount = 2
         const val KEY_ITEMS = "KEY_ITEMS"
     }
 
     private var iPixaAPI: IPixaAPI? = null
     private val compositeDisposable = CompositeDisposable()
     private lateinit var mRecyclerView: RecyclerView
-    private val mLayoutManager = GridLayoutManager(this@PixaActivity, spanCount)
-    private var mAdapter: PixaAdapter = PixaAdapter(this@PixaActivity, ArrayList())
+    private lateinit var mAdapter: PixaAdapter
     private var isGettingImages: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pixa)
+
+        mAdapter = PixaAdapter(this@PixaActivity, ArrayList())
 
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
@@ -55,19 +56,25 @@ class PixaActivity : AppCompatActivity(), OnItemClickListener {
 
         iPixaAPI = ClientBuilder.getPixaAPIClient()
 
+        val layoutManager = StaggeredGridLayoutManager(spanCount,
+                StaggeredGridLayoutManager.VERTICAL)
+
         mRecyclerView = findViewById(R.id.recyclerView)
         mRecyclerView.isNestedScrollingEnabled = true
-        mRecyclerView.layoutManager = mLayoutManager
+//        mRecyclerView.setHasFixedSize(true)
+        mRecyclerView.layoutManager = layoutManager
         mRecyclerView.adapter = mAdapter
+
+        //TODO fix
         mRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                val visibleItemCount = mLayoutManager.childCount
-                val totalItemCount = mLayoutManager.itemCount
-                val pastVisibleItems = mLayoutManager.findFirstVisibleItemPosition()
-                if (pastVisibleItems + visibleItemCount >= totalItemCount - spanCount * 2) {
-                    getImages()
-                }
+                val visibleItemCount = layoutManager.childCount
+                val totalItemCount = layoutManager.itemCount
+//                val pastVisibleItems = layoutManager.findFirstVisibleItemPosition()
+//                if (pastVisibleItems + visibleItemCount >= totalItemCount - spanCount * 2) {
+//                    getImages()
+//                }
             }
         })
         mRecyclerView.addOnItemTouchListener(PixaItemClickListener(this@PixaActivity,

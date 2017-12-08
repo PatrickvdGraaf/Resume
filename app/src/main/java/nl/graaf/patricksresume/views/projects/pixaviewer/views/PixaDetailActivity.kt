@@ -50,7 +50,6 @@ class PixaDetailActivity : AppCompatActivity() {
 
         supportPostponeEnterTransition()
 
-        //TODO use bitmap from memory to bypass reloading
         GlideApp.with(this@PixaDetailActivity)
                 .load(mPixaImage.webformatURL)
                 .centerInside()
@@ -75,15 +74,11 @@ class PixaDetailActivity : AppCompatActivity() {
         val contentView = findViewById<View>(R.id.content)
         contentView.setBackgroundColor(ColorUtils.modifyAlpha(mPixaImage.rgb,
                 PixaImage.BACKGROUND_ALPHA_FLOAT))
-//        contentView.background.alpha = PixaImage.BACKGROUND_ALPHA
         contentView.setPadding(contentView.paddingStart,
                 contentView.paddingTop,
                 contentView.paddingEnd,
                 contentView.paddingBottom
-                        + (supportActionBar?.height ?: 64))
-
-//        titleTextView.setTextColor(mPixaImage.titleTextColor)
-//        bodyTextView.setTextColor(mPixaImage.bodyTextColor)
+                        + (supportActionBar?.height ?: 52))
 
         titleTextView.text = String.format("%sx%s", mPixaImage.imageWidth, mPixaImage.imageHeight)
         bodyTextView.text = mPixaImage.tags.toString()

@@ -49,8 +49,7 @@ class Project {
                 project.mIcon = getImageFor(String.format("ic_launcher_%s", appName), context)
                 project.mStartIntentName = jsonObject.getString("app_activity")
             } catch (ex: Resources.NotFoundException) {
-                Timber.e(ex, String.format("Project could not load resources for appName: %s",
-                        appName))
+                Timber.e(ex, "Project could not load resources for appName: %s", appName)
             }
 
             return project
@@ -66,8 +65,7 @@ class Project {
                 project.mStartIntentName = projectJson.getJSONArray("app_activity")
                         .getString(index)
             } catch (ex: Resources.NotFoundException) {
-                Timber.e(ex, String.format("Project could not load resources for appName: %s",
-                        appName))
+                Timber.e(ex, "Project could not load resources for appName: %s", appName)
             }
 
             return project
@@ -75,8 +73,14 @@ class Project {
 
 
         private fun getStringFor(name: String, context: Context): String {
-            return context.getString(context.resources.getIdentifier(name, "string",
-                    context.packageName))
+            return try {
+                context.getString(context.resources.getIdentifier(name, "string",
+                        context.packageName))
+            } catch (ex: Resources.NotFoundException) {
+                Timber.e(ex)
+                "Unknown"
+            }
+
         }
 
         private fun getImageFor(name: String, context: Context): Int {

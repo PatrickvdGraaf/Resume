@@ -1,8 +1,11 @@
 package nl.graaf.patricksresume.views.projects.pixaviewer.views.adapter
 
+import android.app.Activity
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Canvas
+import android.graphics.Point
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.support.v7.graphics.Palette
@@ -10,11 +13,9 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.ImageView
-import android.widget.ProgressBar
-import android.widget.TextView
 import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
@@ -30,16 +31,24 @@ import timber.log.Timber
  *
  * © Copyright 2017
  */
-class PixaAdapter(context: Context, objects: ArrayList<PixaImage>)
+class PixaAdapter(activity: Activity, objects: ArrayList<PixaImage>)
     : RecyclerView.Adapter<PixaAdapter.PixaViewHolder>() {
 
-    private var mData = objects
-    private val mContext = context
+    private var mData: ArrayList<PixaImage> = objects
+    private var mScreenWidth: Int = getScreenWidth(activity)
+    private val mContext: Context = activity.applicationContext
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): PixaViewHolder {
         val inflater = LayoutInflater.from(parent?.context)
         val view = inflater.inflate(R.layout.grid_item_pixa_image, parent, false)
         return PixaViewHolder(view)
+    }
+
+    private fun getScreenWidth(activity: Activity): Int {
+        val wm: WindowManager = activity.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+        val size = Point()
+        wm.defaultDisplay.getSize(size)
+        return size.x
     }
 
     fun getItems(): ArrayList<PixaImage> {
@@ -51,7 +60,7 @@ class PixaAdapter(context: Context, objects: ArrayList<PixaImage>)
     }
 
     override fun onBindViewHolder(holder: PixaViewHolder?, position: Int) {
-        holder?.setImage(mContext, mData[position])
+        holder?.setImage(mContext, mData[position], position)
     }
 
     fun getImageForIndex(index: Int): PixaImage? {
@@ -97,19 +106,33 @@ class PixaAdapter(context: Context, objects: ArrayList<PixaImage>)
     }
 
     inner class PixaViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private var mTextView: TextView = itemView.findViewById(R.id.text)
-        private var mContent: View = itemView.findViewById(R.id.content)
+//        private var mTextView: TextView = itemView.findViewById(R.id.text)
+//        private var mContent: View = itemView.findViewById(R.id.content)
         private var mImageView: ImageView = itemView.findViewById(R.id.image)
-        private var mProgressBar: ProgressBar = itemView.findViewById(R.id.progressBar)
+//        private var mProgressBar: ProgressBar = itemView.findViewById(R.id.progressBar)
 
-        fun setImage(context: Context, image: PixaImage) {
+        fun setImage(context: Context, image: PixaImage, position: Int) {
+            val opts = BitmapFactory.Options()
+            opts.inJustDecodeBounds = true
+            BitmapFactory.decodeFile(image.webformatURL, opts)
+            opts.inJustDecodeBounds = false
+
+            val height: Int = if (position == 1 || position == (mData.size - 1)) {
+                150
+            } else {
+                300
+            }
+
             var listener: RequestListener<Drawable?>? = null
             if (!image.hasColors()) {
                 listener = object : RequestListener<Drawable?> {
-                    override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable?>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
+                    override fun onResourceReady(resource: Drawable?,
+                                                 model: Any?, target: Target<Drawable?>?,
+                                                 dataSource: DataSource?,
+                                                 isFirstResource: Boolean): Boolean {
                         if (resource != null) {
-                            mProgressBar.visibility = View.GONE
-                            mContent.visibility = View.VISIBLE
+//                            mProgressBar.visibility = View.GONE
+//                            mContent.visibility = View.VISIBLE
                             Palette.from(drawableToBitmap(resource))
                                     .generate { palette ->
                                         image.setPaletteValues(palette)
@@ -119,10 +142,13 @@ class PixaAdapter(context: Context, objects: ArrayList<PixaImage>)
                         return false
                     }
 
-                    override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable?>?, isFirstResource: Boolean): Boolean {
+                    override fun onLoadFailed(e: GlideException?,
+                                              model: Any?,
+                                              target: Target<Drawable?>?,
+                                              isFirstResource: Boolean): Boolean {
                         Timber.e(e)
-                        mProgressBar.visibility = View.GONE
-                        mContent.visibility = View.GONE
+//                        mProgressBar.visibility = View.GONE
+//                        mContent.visibility = View.GONE
                         //TODO show sad face :(
                         return true
                     }
@@ -133,29 +159,16 @@ class PixaAdapter(context: Context, objects: ArrayList<PixaImage>)
 
             GlideApp.with(context)
                     .load(image.webformatURL)
-                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                    .override(mScreenWidth / 2, height)
+                    .centerCrop()
                     .listener(listener)
                     .into(mImageView)
 
-            mTextView.text = String.format("%sx%s", image.imageWidth, image.imageHeight)
+//            mTextView.text = String.format("%sx%s", image.imageWidth, image.imageHeight)
         }
 
         private fun updateColors(pixaImage: PixaImage) {
-//            ColorUtils.animateViewBackground(mContent, modifyAlpha(pixaImage.rgb,
-//                    PixaImage.BACKGROUND_ALPHA_FLOAT))
-
-            mContent.setBackgroundColor(pixaImage.rgb)
-
-//            val valueAnimator = ValueAnimator.ofFloat(mContent.alpha,
-//                    PixaImage.BACKGROUND_ALPHA_FLOAT)
-//            valueAnimator.interpolator = AccelerateDecelerateInterpolator() // increase the speed first and then decrease
-//            valueAnimator.duration = 1000
-//            valueAnimator.addUpdateListener { animation ->
-//                val progress = animation.animatedValue as Float
-//                mContent.alpha = progress
-//                // no need to use invalidate() as it is already present in //the text view.
-//            }
-//            valueAnimator.start()
+//            mContent.setBackgroundColor(pixaImage.rgb)
         }
 
         private fun drawableToBitmap(drawable: Drawable): Bitmap {
